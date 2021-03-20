@@ -1,4 +1,4 @@
-\documentclass[10pt]{beamer}
+\documentclass[aspectratio=169,10pt]{beamer}
 \usetheme[
 %%% options passed to the outer theme
 %    progressstyle=movCircCnt,   %either fixedCircCnt, movCircCnt, or corner
@@ -24,6 +24,7 @@
 % Or whatever. Note that the encoding and the font should match. If T1
 % does not look nice, try deleting the line with the fontenc.
 \usepackage{helvet}
+\usepackage{pgffor}
 
 % colored hyperlinks
 \newcommand{\chref}[2]{%
@@ -83,17 +84,58 @@
 
 \section{Clustering}
 
-\begin{frame}{\secname}{Introduction}
+\subsection{Introduction}
+\begin{frame}{\secname}{\subsecname}
   \begin{itemize}
     \item \textbf{Clustering} is a way to categorize data to impose structure.
     \item A use case is recommender systems (Amazon, Spotify, Netflix), where a user is recommended items that bought/listened to/watched by other users with similar interests.
   \end{itemize}
 \end{frame}
 
-\begin{frame}{\secname}{K-Means}
+\subsection{K-Means}
+\begin{frame}{\secname}{\subsecname}
+  % \begin{itemize}
+  %   \item One example of a clustering algorithm is \textbf{K-Means}
+  % \end{itemize}
+  Given $D = (x_1, \ldots, x_n)$ where $x_i \in \mathbb{R}^p$, $K \in \mathbb{N}$ and let $C_1, \ldots, C_K$ denote different groups of the $x_i$'s.
+  \vspace{10pt}
+  
+  The K-Means algorithm tries to solve
+  \begin{align}
+    \min_{C_1, \ldots, C_K} \left\{\sum_{k=1}^K W(C_k)\right\}, \label{k-means-general-problem}
+  \end{align}
+  where $W(C_k)$ denotes the \textbf{within cluster variation}, in other words the dissimilarity of the group.
+  \vspace{10pt}
+  
+  The most common dissimilarity measure is the is the squared Euclidean distance
+  \begin{align}
+    W(C_k) := \frac{1}{|C_k|} \sum_{i,i' \in C_k} \sum_{j = 1}^p (x_{i,j} - x_{i',j})^2.
+  \end{align}
 \end{frame}
 
-\begin{frame}{\secname}{Hierarchical Clustering}
+\begin{frame}{\secname}{\subsecname}
+  \textit{You have reaced slide 18 lecture 2, keep going from there!}
+\end{frame}
+
+\subsection{Implementation of K-Means}
+
+\begin{frame}{\secname}{\subsecname}
+  
+\end{frame}
+
+\subsection{An example of the K-Means algorithm}
+\foreach \nn in{01,02,03,04,05,06,07,08,09,10,11,12,13}{
+\begin{frame}{\secname}{\subsecname}
+  \begin{figure}  
+    \centering
+    \includegraphics[width=.6\textheight]{scripts/kmeans-animation/animation_page_00\nn.png}
+    \caption{Iteration \nn}
+  \end{figure}
+\end{frame}
+}
+
+\subsection{Hierarchical Clustering}
+\begin{frame}{\secname}{\subsecname}
 \end{frame}
 
 \section{Shrinkage}
