@@ -26,6 +26,13 @@
 \usepackage{helvet}
 \usepackage{pgffor}
 
+% Pseudocode
+\usepackage{xcolor}
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+
+% Layout
+\setlength{\parskip}{1em}
+
 % colored hyperlinks
 \newcommand{\chref}[2]{%
   \href{#1}{{\usebeamercolor[bg]{AAUsimple}#2}}%
@@ -92,13 +99,12 @@
   \end{itemize}
 \end{frame}
 
-\subsection{K-Means}
+\subsection{K-Means Optimization Problem}
 \begin{frame}{\secname}{\subsecname}
   % \begin{itemize}
   %   \item One example of a clustering algorithm is \textbf{K-Means}
   % \end{itemize}
   Given $D = (x_1, \ldots, x_n)$ where $x_i \in \mathbb{R}^p$, $K \in \mathbb{N}$ and let $C_1, \ldots, C_K$ denote different groups of the $x_i$'s.
-  \vspace{10pt}
   
   The K-Means algorithm tries to solve
   \begin{align}
@@ -114,7 +120,42 @@
 \end{frame}
 
 \begin{frame}{\secname}{\subsecname}
-  \textit{You have reaced slide 18 lecture 2, keep going from there!}
+  If we by $\bar{x}_{k,j} = \frac{1}{|C_k|}\sum_{i \in C_k} x_{i,j}$ denote the mean value of the $j$'th dimension in cluster $k$, it can be shown that
+  \begin{align}
+    \frac{1}{|C_k|} \sum_{i,i' \in C_k} \sum_{j = 1}^p (x_{i,j} - x_{i',j})^2 = 2 \sum_{i \in C_k} \sum_{j = 1}^p (x_{i,j} - \bar{x}_{k,j})^2.
+  \end{align}
+  If we further note that $\bar{x}_{k,j} = \min_{\mu_k} \left\{ \sum_{i \in C_k} \sum_{j = 1}^p (x_{i,j} - \mu_k)^2\right\}$ this implies that the optimization problem in \eqref{k-means-general-problem} can be rewritten as
+  \begin{align}
+    \min_{C_1, \ldots, C_k, \mu_1, \ldots, \mu_k} \left\{ \sum_{k = 1}^K \sum_{i \in C_k} \sum_{j = 1}^p (x_{i,j} - \mu_k)^2 \right\}.
+  \end{align}
+\end{frame}
+
+\subsection{K-Means Algorithm}
+\begin{frame}{\secname}{\subsecname}
+  The K-Means algorithm is now able to exploit the new formulation of the optimization problem and iteratively solve for $\{C_1, \ldots, C_k\}$ and $\{\mu_1, \ldots, \mu_k\}$.
+
+  This makes K-Means a greedy algorithm because, in each iteration it chooses optimal values for $\{C_1, \ldots, C_k\}$ and $\{\mu_1, \ldots, \mu_k\}$.
+
+  Convergence of the algorithm is therefore ensured, however we cannot guarantee it will find the global optimum.
+\end{frame}
+
+\begin{frame}{\secname}{\subsecname}
+  \begin{algorithm}[H]
+    \DontPrintSemicolon
+    Assign each obsevation to a cluster randomly\;
+    \ForEach{Cluster}{Compute the centroid\;}
+    \While{Centroids have not changed since last iteration}{
+      \ForEach{Observation}{
+        Compute distance to all centroids\;
+        Assign to the closest \;
+        }
+        \ForEach{Cluster}{
+          Compute the centroid\;
+        }
+    }
+    \Return{Clusters}
+    \caption{K-Means}
+  \end{algorithm}
 \end{frame}
 
 \subsection{Implementation of K-Means}
