@@ -93,10 +93,9 @@
 
 \subsection{Introduction}
 \begin{frame}{\secname}{\subsecname}
-  \begin{itemize}
-    \item \textbf{Clustering} is a way to categorize data to impose structure.
-    \item A use case is recommender systems (Amazon, Spotify, Netflix), where a user is recommended items that bought/listened to/watched by other users with similar interests.
-  \end{itemize}
+  \textbf{Clustering} is a way to categorize data to impose structure.
+  
+  A use case is recommender systems (Amazon, Spotify, Netflix), where a user is recommended items that bought/listened to/watched by other users with similar interests.
 \end{frame}
 
 \subsection{K-Means Optimization Problem}
@@ -140,29 +139,51 @@
 \end{frame}
 
 \begin{frame}{\secname}{\subsecname}
+  \begingroup
+  \footnotesize
   \begin{algorithm}[H]
     \DontPrintSemicolon
     Assign each obsevation to a cluster randomly\;
     \ForEach{Cluster}{Compute the centroid\;}
+    \ForEach{Observation}{
+        Compute distance to all centroids\;
+        Assign to the closest \;
+    }
     \While{Centroids have not changed since last iteration}{
       \ForEach{Observation}{
         Compute distance to all centroids\;
         Assign to the closest \;
-        }
-        \ForEach{Cluster}{
-          Compute the centroid\;
-        }
+      }
+      \ForEach{Cluster}{
+        Compute the centroid\;
+      }
     }
     \Return{Clusters}
     \caption{K-Means}
   \end{algorithm}
+  \endgroup
 \end{frame}
 
 \subsection{Implementation of K-Means}
-
-\begin{frame}{\secname}{\subsecname}
+% \begin{frame}{\secname}{\subsecname}
+% % my_kmeans <- function(data, K, animate = F, size = 3) {
+% %   data$cluster <- as.factor(sample(c(1:K), size = nrow(data), replace = T))
+% %   initial_cents <- calculate_cents(data, K)
   
-\end{frame}
+% %   data_list <- list()
+% %   data_list[[1]] <- data
+% %   data_list[[2]] <- update_cluster(data, initial_cents)
+  
+% %   i = 1
+% %   while (!identical(data_list[[i]]$cluster, data_list[[i + 1]]$cluster)) {
+% %     cents <- calculate_cents(data_list[[i + 1]], K)
+% %     data_list[[i + 2]] <- update_cluster(data_list[[i + 1]], cents)
+% %     i = i + 1
+% %   }
+  
+% %   cents <- calculate_cents(data_list[[i + 1]], K)
+% % }
+% \end{frame}
 
 \subsection{An example of the K-Means algorithm}
 \foreach \nn in{01,02,03,04,05,06,07,08,09,10,11,12,13}{
@@ -174,6 +195,8 @@
   \end{figure}
 \end{frame}
 }
+
+
 
 \subsection{Hierarchical Clustering}
 \begin{frame}{\secname}{\subsecname}
