@@ -245,7 +245,13 @@
 
 \section{Neural Networks}
 
-\begin{frame}{\secname}{}
+\subsection{Perceptron}
+
+\begin{frame}{\secname}{\subsecname}
+    \textbf{Backpropagation}: For a given loss function $L$ we look for $\frac{\partial L}{\partial w_i}$.
+    We start with initial values for the weights, which we shall denote $w_{old}$.
+    Then we update the weights by $w_{new} = w_{old} - \eta \frac{\partial L}{\partial w}$.
+    One iteration is called and \textbf{epoch}.
 \end{frame}
 
 {\aauwavesbg
