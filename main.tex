@@ -32,7 +32,9 @@
 
 % Highligthing
 \newcommand{\hl}[1]{%
-  \colorbox{yellow}{#1}
+  \begin{center}
+    \colorbox{yellow}{#1}
+  \end{center}
 }
 
 % Layout
@@ -231,18 +233,55 @@
 
 \subsection{Overview}
 \begin{frame}{\secname}{\subsecname}
+  \hl{Write equaitons and theory about ridge, lasso and elastic net}
+  \hl{Find an example to compare the 3 methods on}
+\end{frame}
+
+
+\subsection{Variable Selection and Regularization}
+\begin{frame}{\secname}{\subsecname}
+  Because it is often cheaper to obtain multiple observations from a few samples than to obtain more samples, thus increasing the number of explanatory variables in a regression model, a linear regression model would be prone to increasing variance.
+  
+  When extending linear regression to multiple exaplanatory variables the main objectives is:
   \begin{itemize}
-    \item Variable Selection and Regularization (Because it is often cheaper to obtain multiple observations from a few samples than to obtain more samples, thus increasing the number of explanatory variables in a regression model, a linear regression model would be prone to increasing )
+    \item \textbf{Model Interpretability}: Models with fewer variables are often more easy to interpret results from and are therefore better to use for decision making.
+    \item \textbf{Predition Accuracy}: If by introducing some bias we are able to dramatically improve prediction accuracy, this would be worth considering (bias-variance tradeoff).
   \end{itemize}
 \end{frame}
 
-\begin{frame}{\secname}{Lasso}
+\begin{frame}{\secname}{\subsecname}
+  There are multiple tools we can use in this pursuit
+    \begin{itemize}
+      \item \textbf{Subset Selection}: Works by fitting lots of models with different combinations of predictors. Then we can find out which variables are most related to the response and we can select these.
+      \item \textbf{Dimensionality Reduction}: Works by projecting explanatory variables into a smaller dimensional space and use these projections as predictors.
+      \item \textbf{Shrinkage Methods}: Works by fitting a model using all predictors while shrinking coefficients towards zero, to reduce variance. Some shrinkage methods can also perform variable selection by shrinking coefficients to exactly zero. 
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{\secname}{\subsecname}
+  This presentation will focus on shrinkage methods.
+  The two main shrinkage methods are
+  \begin{itemize}
+    \item \textbf{Ridge Regression}
+    \item \textbf{Lasso}
+  \end{itemize}
+  They both penalize the ``size'' of the estimated parameters, however they difer in the way they quantify the ``size''.
+  Ridge regression penalize the $\ell_2$ norm while Lasso penalize the $\ell_1$ norm.
+
+  Therefore we can also refer to the two methods as $\ell_1$- and $\ell_2$-regularizations.
 \end{frame}
 
 \begin{frame}{\secname}{Ridge Regression}
+  \hl{Write the equation that ridge minimizes}
+\end{frame}
+
+\begin{frame}{\secname}{Lasso}
+  \hl{Write the equation that Lasso minimizes}
 \end{frame}
 
 \begin{frame}{\secname}{Elastic Net}
+  The method is a compromise between Ridge Regression and Lasso as it minimizes
+  \hl{Write the equation that elastic net minimizes}
 \end{frame}
 
 \section{Classification}
