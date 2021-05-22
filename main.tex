@@ -325,6 +325,25 @@
   Another assumption made in LDA is that $\Sigma_k = \Sigma \ \forall k \in \{1,\ldots,K\}$, in other words all classes will have the same variance-covariance matrix.
 \end{frame}
 
+\begin{frame}{\secname}{\subsecname}
+  When we classify a new observation, $X_0$, we simply find the category with the highest probability, $P(y = k|X_0)$ for $k = 1,\ldots,K$.
+
+  In other words we want to find the $k$ such that $P(y=k|X)$ is maximized.
+  Since the logarithm is an increasing function we know that the $k$ which maximizes $P(y=k|X)$ also maximizes the following
+  \begin{align}
+    \log(P(y=k|X)) = \log(\pi_k) + \log(f_k(x)) - \underbrace{\log\left(\sum_{i = 1}^K \pi_i f_i(x)\right)}_{\text{Does not depend on $k$}},
+  \end{align} 
+  The last term is identical across groups and we drop this term for the maximization problem.
+\end{frame}
+
+\begin{frame}{\secname}{\subsecname}
+  So now we have the following
+  \begin{align}
+    \log(P(y=k|X)) = \log(\pi_k) + \log(f_k(x)),
+  \end{align}
+  but let us take a look at the second term on the right.
+\end{frame}
+
 \subsection{Quadratic Discriminant Analysis (QDA)}
 \begin{frame}{\secname}{\subsecname}
 
