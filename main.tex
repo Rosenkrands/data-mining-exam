@@ -30,6 +30,11 @@
 \usepackage{xcolor}
 \usepackage[linesnumbered,ruled,vlined]{algorithm2e}
 
+% Highligthing
+\newcommand{\hl}[1]{%
+  \colorbox{yellow}{#1}
+}
+
 % Layout
 \setlength{\parskip}{1em}
 
@@ -84,12 +89,22 @@
 %%%%%%%%%%%%%%%%
 
 % TOC
-\begin{frame}{Agenda}{}
-\tableofcontents
-\end{frame}
+% \begin{frame}{Agenda}{}
+% \tableofcontents
+% \end{frame}
 %%%%%%%%%%%%%%%%
 
 \section{Clustering}
+
+\subsection{Overview}
+\begin{frame}{\secname}{\subsecname}
+  \begin{itemize}
+    \item What is clustering?
+    \item K-Means optimization problem and algorithm
+    \item Implementation of the K-Means algorithm and an example
+    \item Hierarchical Clustering (briefly)
+  \end{itemize}
+\end{frame}
 
 \subsection{Introduction}
 \begin{frame}{\secname}{\subsecname}
@@ -200,9 +215,26 @@
 
 \subsection{Hierarchical Clustering}
 \begin{frame}{\secname}{\subsecname}
+  \begin{center}
+    \hl{Todo}
+  \end{center}
+  \begin{itemize}
+    \item Introduction
+    \item Type - Agglomerative vs Divise
+    \item Pseudocode for algorithm, or just in words
+    \item Visualization with dendogram
+    \item Linkage types - (complete, single, average, centroid)
+  \end{itemize}
 \end{frame}
 
 \section{Shrinkage}
+
+\subsection{Overview}
+\begin{frame}{\secname}{\subsecname}
+  \begin{itemize}
+    \item Variable Selection and Regularization (Because it is often cheaper to obtain multiple observations from a few samples than to obtain more samples, thus increasing the number of explanatory variables in a regression model, a linear regression model would be prone to increasing )
+  \end{itemize}
+\end{frame}
 
 \begin{frame}{\secname}{Lasso}
 \end{frame}
@@ -251,7 +283,7 @@
     \textbf{Backpropagation}: For a given loss function $L$ we look for $\frac{\partial L}{\partial w_i}$.
     We start with initial values for the weights, which we shall denote $w_{old}$.
     Then we update the weights by $w_{new} = w_{old} - \eta \frac{\partial L}{\partial w}$.
-    One iteration is called and \textbf{epoch}.
+    One iteration is called an \textbf{epoch}.
 \end{frame}
 
 {\aauwavesbg
