@@ -333,15 +333,48 @@
   \begin{align}
     \log(P(y=k|X)) = \log(\pi_k) + \log(f_k(x)) - \underbrace{\log\left(\sum_{i = 1}^K \pi_i f_i(x)\right)}_{\text{Does not depend on $k$}},
   \end{align} 
-  The last term is identical across groups and we drop this term for the maximization problem.
+  The last term is identical across categories and we drop this term for the maximization problem.
 \end{frame}
 
 \begin{frame}{\secname}{\subsecname}
   So now we have the following
   \begin{align}
-    \log(P(y=k|X)) = \log(\pi_k) + \log(f_k(x)),
+    \log(\pi_k) + \log(f_k(x)), \label{eq:lda_two_terms}
   \end{align}
-  but let us take a look at the second term on the right.
+  but let us take a look at the second term.
+  By the normality assumption we have that
+  \begin{align}
+    f_k(x) = \frac{1}{(2\pi)^{p/2} |\Sigma|^{1/2}} \exp\left\{
+      -\frac{1}{2}(x - \mu)^\top\Sigma^{-1}(x - \mu_k)
+    \right\}.
+  \end{align}
+  Thus we can write \eqref{eq:lda_two_terms} as
+  \begin{align}
+    \log(\pi_k) + \underbrace{\log((2\pi)^{p/2} |\Sigma|^{1/2})}_{\text{Does not depend on $k$}} - \frac{1}{2}(x - \mu)^\top\Sigma^{-1}(x - \mu_k), 
+  \end{align}
+  and subsequently drop another term that is identical across categories.
+\end{frame}
+
+\begin{frame}{\secname}{\subsecname}
+  So now we have the following
+  \begin{align}
+    \log(\pi_k) - \frac{1}{2}(x - \mu)^\top\Sigma^{-1}(x - \mu_k), \label{eq:lda_another_two_terms}
+  \end{align}
+  again taking a look at the second term
+  \begin{align}
+    (x - \mu_k)^\top\Sigma^{-1}(x - \mu_k) = \underbrace{x^\top\Sigma^{-1}x}_{\text{Does not depend on $k$}} - x^\top\Sigma^{-1}\mu_k - \mu_k^\top \Sigma^{-1}x + \mu_k^\top \Sigma^{-1}\mu_k, 
+  \end{align}
+  and furthermore we have that $x^\top\Sigma^{-1}\mu_k = \mu_k^\top \Sigma^{-1}x$ because both are scalars and one is just the transpose of the other.
+\end{frame}
+
+\begin{frame}{\secname}{\subsecname}
+  So we end up with the following expression, which is called the \textbf{linear discriminant function}
+  \begin{align}
+    \delta_k(x) = \log(\pi_k) + x^\top \Sigma^-1 \mu_k - \frac{1}{2}\mu_k^\top \Sigma^{-1} \mu_k,
+  \end{align}
+  this is what we will use to classify observations.
+  Note the expression is linear in $x$ and therefore we call it linear discriminant analysis.
+
 \end{frame}
 
 \subsection{Quadratic Discriminant Analysis (QDA)}
