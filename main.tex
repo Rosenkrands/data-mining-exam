@@ -286,13 +286,53 @@
 
 \section{Classification}
 
-\begin{frame}{\secname}{Linear Discriminant Analysis (LDA)}
+\subsection{Overview}
+\begin{frame}{\secname}{\subsecname}
+
 \end{frame}
 
-\begin{frame}{\secname}{Quadratic Discriminant Analysis (QDA)}
+\subsection{Introduction}
+\begin{frame}{\secname}{\subsecname}
+  If the response variable is categorical (qualitative), i.e.\! it is of the form $y\in\{1,\ldots,L\}$. Then a linear model of the form
+  \begin{align*}
+    y = \beta_0 + \beta_1 x_1 + \cdots + \beta_px_p,
+  \end{align*}
+  is generally not a good approach to take as it could predict invalid values and for certain types of categorical data there might not be a clear ordering.
+  
+  Therefore when dealing with categorical variable the aim of the model is to predict the probability that an observation belongs to a certain category, rather than the category itself.
 \end{frame}
 
-\begin{frame}{\secname}{Naive Bayes}
+\subsection{Linear Discriminant Analysis (LDA)}
+\begin{frame}{\secname}{\subsecname}
+  Suppose we have a dataset with a response variable $y\in\{0,\ldots,L\}$, explanatory variables $x_1, \ldots, x_p$ and that we would like to model
+  \begin{align}
+    P(y=k|X) =\underbrace{\frac{P(y = k)P(X|y=k)}{P(X)}}_{\text{Bayes Theorem}} = \frac{\pi_k f_k(x)}{\sum_{i=1}^K f_i(x)},
+  \end{align}
+  where $\pi_k = P(y=k)$ and $f_k(x) = P(X|y=k)$.
+
+  If we use the proportion of observations in the dataset that belong to class $k$ as an estimate for $\pi_k$, then we just need to model $f_k(x) =P(X|y=k)$.
+
+  In other words we need to make some assumption on the distribution of $f_k(x)$.
+\end{frame}
+
+\begin{frame}{\secname}{\subsecname}
+  The assumption made in LDA is that each $f_k(x)$ come from a multivariate normal distribution, i.e.\!
+  \begin{align}
+    f_k(x) = \frac{1}{(2\pi)^{p/2} |\Sigma_k|^{1/2}} \exp\left\{
+      -\frac{1}{2}(x - \mu_k)^\top\Sigma_k^{-1}(x - \mu_k)
+    \right\}.
+  \end{align}
+  Another assumption made in LDA is that $\Sigma_k = \Sigma \ \forall k \in \{1,\ldots,K\}$, in other words all classes will have the same variance-covariance matrix.
+\end{frame}
+
+\subsection{Quadratic Discriminant Analysis (QDA)}
+\begin{frame}{\secname}{\subsecname}
+
+\end{frame}
+
+\subsection{Naive Bayes}
+\begin{frame}{\secname}{\subsecname}
+
 \end{frame}
 
 \section{Trees}
