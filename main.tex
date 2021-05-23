@@ -30,6 +30,9 @@
 \usepackage{xcolor}
 \usepackage[linesnumbered,ruled,vlined]{algorithm2e}
 
+% subfigure
+\usepackage{subcaption}
+
 % Highligthing
 \newcommand{\hl}[1]{%
   \begin{center}
@@ -288,7 +291,8 @@
 
 \subsection{Overview}
 \begin{frame}{\secname}{\subsecname}
-
+ \hl{Add something about logit and naive bayes, very brief}
+ \hl{Maybe include example with an ROC curve}
 \end{frame}
 
 \subsection{Introduction}
@@ -374,12 +378,48 @@
   \end{align}
   this is what we will use to classify observations.
   Note the expression is linear in $x$ and therefore we call it linear discriminant analysis.
+\end{frame}
 
+\begin{frame}{\secname}{\subsecname}
+  In practice the parameters are estimated by
+  \begin{align}
+    \hat{\pi}_k = \frac{n_k}{n}, \quad \hat{\mu}_k = \frac{1}{n_k}\sum_{y_i=k}x_i, \quad \hat{\Sigma} \frac{1}{n-K}\sum_{k=1}^K\sum_{y_i=k}(x_i - \hat{\mu}_k)(x_i - \hat{\mu}_k)^\top,
+  \end{align}
+  i.e.\! the proportion of observations in class $k$, the mean for class $k$ and the mean of the variances respectively.
 \end{frame}
 
 \subsection{Quadratic Discriminant Analysis (QDA)}
 \begin{frame}{\secname}{\subsecname}
+  Imagine now that we relax the LDA assumption that $\Sigma_k = \Sigma \ \forall k \in \{1,\ldots,K\}$ and allow classes to have their own variance-covariance matrix.
 
+  This implies that some of the simplification we performed before no longer holds and the discriminant function will now take the form
+  \begin{align}
+    \delta_k(x) = {\color{orange}-\frac{1}{2} x^\top\Sigma_kx} + \log(\pi_k) + x^\top \Sigma{\color{orange}_k}^-1 \mu_k - \frac{1}{2}\mu_k^\top \Sigma{\color{orange}_k}^{-1} \mu_k {\color{orange}- \frac{1}{2}\log|\Sigma_k|},
+  \end{align}
+  note that first term is quadratic in $x$.
+
+  Another difference in the estimation of the covariance matrices, because we relaxed the assumption we must estimate a variance-covariance matrix for each class
+  \begin{align}
+    \hat{\Sigma}_k = \frac{1}{n_k - 1} \sum_{y_i = k} (x_i - \hat{\mu}_k)(x_i - \hat{\mu}_k)^\top.
+  \end{align}
+\end{frame}
+
+\subsection{Example using the Iris dataset}
+\begin{frame}{\secname}{\subsecname}
+  \begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.45\textwidth}
+      \includegraphics[width=\textwidth]{scripts/output/lda_regions.pdf}
+      \caption{LDA classification regions.}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.45\textwidth}
+      \includegraphics[width=\textwidth]{scripts/output/qda_regions.pdf}
+      \caption{QDA classification regions.}
+    \end{subfigure}
+    \caption{Classification regions for LDA and QDA performed on the \textit{Iris} dataset, considering only the variables \textit{sepal width} and \textit{sepal length}.
+    Note that the LDA boundaries are linear while QDA include a non-linear boundary.}
+  \end{figure}
 \end{frame}
 
 \subsection{Naive Bayes}
