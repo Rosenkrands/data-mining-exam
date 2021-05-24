@@ -445,7 +445,42 @@
 
 \subsection{Classification and Regression Trees (CART)}
 \begin{frame}{\secname}{\subsecname}
+  The purpose of the CART algorithm is to decide on the split points. This is done in a greedy way one split at a time, as the task of checking all possible combinations of splits would be computationally infeasible.
+\end{frame}
 
+\begin{frame}{\secname}{\subsecname}
+  Consider the following model (non-binary)
+  \begin{align}
+    y = 1 + 2x_1 + 3x_2 + \varepsilon,
+  \end{align}
+  where $x_1, x_2 \sim N(0,1)$ and $\varepsilon \sim N(0,1/2)$.
+  We can then introduce the variables $\tilde{x}_1, \tilde{x}_2$ given by
+  \begin{align}
+    \tilde{x}_1 =
+    \begin{cases}
+      1 & \text{for } x_1 > 0 \\
+      0 & \text{for } x_1 \leq 0
+    \end{cases},
+    \quad
+    \tilde{x}_2 =
+    \begin{cases}
+      1 & \text{for } x_2 > 0 \\
+      0 & \text{for } x_2 \leq 0
+    \end{cases},
+  \end{align} 
+  and proprose a separate model (binary)
+  \begin{align}
+    \tilde{y} = 1 + 2\tilde{x}_1 + 3\tilde{x}_2 + \varepsilon.
+  \end{align}
+  We can then compare how the CART algorithm compares to linear regression on both the binary and non-binary model.
+\end{frame}
+
+\begin{frame}{\secname}{\subsecname}
+  \begin{figure}
+    \includegraphics[height=.5\textheight]{scripts/output/lm_tree_compare.pdf}
+    \caption{Comparing linear regression (\texttt{lm} from \texttt{base R}) and CART (\texttt{tree} from the \texttt{tree} package) on 1000 repetions of 500 observations.
+    We see that when the data is generated from a step function its a tie between \texttt{tree} and \texttt{lm}, but when the data is linear the CART understandably struggles compared to linear regression.}
+  \end{figure}
 \end{frame}
 
 \subsection{Bagging}
