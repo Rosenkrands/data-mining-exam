@@ -236,7 +236,7 @@
 
 \subsection{Overview}
 \begin{frame}{\secname}{\subsecname}
-  \hl{Write equaitons and theory about ridge, lasso and elastic net}
+  \hl{Write theory about ridge, lasso and elastic net - including coordinate descent etc.}
   \hl{Find an example to compare the 3 methods on}
 \end{frame}
 
@@ -275,16 +275,27 @@
 \end{frame}
 
 \begin{frame}{\secname}{Ridge Regression}
-  \hl{Write the equation that ridge minimizes}
+  The expression that ridge regression looks to minimize is the following
+  \begin{align}\label{eq:ridge.regression}
+    \underbrace{\sum_{i =1}^n \left(y_i - \beta_0 - \sum_{j=1}^p \beta_j x_{ij} \right)^2}_{RSS} + \underbrace{\lambda\sum_{j=1}^p \beta_j^2}_{Penalty}, 
+  \end{align}
+  where $\lambda$ is a parameter that needs to be determined seperately, this is usually done by cross validation.
 \end{frame}
 
 \begin{frame}{\secname}{Lasso}
-  \hl{Write the equation that Lasso minimizes}
+  The expression that lasso looks to minimize is the following
+  \begin{align*}
+    \sum_{i=1}^n \left(y_i - \beta_0 - \sum_{j=1}^p \beta_j x_{ij}\right)^2 + \lambda \sum_{j=1}^p |\beta_j|, 
+  \end{align*}
+  where $\lambda$, again, is a parameter that needs to be determined seperately.
 \end{frame}
 
 \begin{frame}{\secname}{Elastic Net}
   The method is a compromise between Ridge Regression and Lasso as it minimizes
-  \hl{Write the equation that elastic net minimizes}
+  \begin{align*}
+    \sum_{i=1}^n \left( y_i - \beta_0 - \sum_{j=1}^p \beta_j x_{ij}\right)^2 + \lambda \sum_{j=1}^p \left(\alpha |\beta_j| + (1 - \alpha)\beta_j^2\right),
+  \end{align*}
+  note that here we have the additional parameter $\alpha$ that determines the weighting of the two norms.
 \end{frame}
 
 \section{Classification}
