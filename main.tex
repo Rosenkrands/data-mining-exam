@@ -36,6 +36,8 @@
 % draw figures
 \usepackage{tikz}
 \usetikzlibrary{arrows}
+% \usetikzlibrary{shapes.misc}
+% \tikzset{cross/.style={cross out, draw=black, minimum size=2*(#1-\pgflinewidth), inner sep=0pt, outer sep=0pt}
 
 % Highligthing
 \newcommand{\hl}[1]{%
@@ -275,7 +277,7 @@
   \end{columns}
 \end{frame}
 
-\subsection{Linkage}
+\subsection{Linkages}
 \begin{frame}{\secname}{\subsecname}
   In order to quantify the similarity between observations we need to establish a dissimilarity measure.
   However there are many ways to define dissimilarity, or linkage, between groups of observations.
@@ -284,8 +286,98 @@
     \item \textbf{Single}: The smallest pairwise dissimilarity.
     \item \textbf{Complete}: The largest pairwise dissimilarity.
     \item \textbf{Average}: The average dissimilarity between observations.
-    \item \textbf{Centroid}: The dissimilarity between centroids of clusters.-
+    \item \textbf{Centroid}: The dissimilarity between centroids of clusters.
   \end{enumerate}
+\end{frame}
+
+\begin{frame}{\secname}{\subsecname}
+  \begin{figure}
+    \centering
+    \begin{subfigure}[t]{.45\textwidth}
+      \centering
+      \resizebox{.9\textwidth}{!}{
+        \begin{tikzpicture}
+          \foreach \x\y [count=\xi from 1] in {1.7/0.9, 0.1/1.1, 0.5/0.4, 1.5/0.3, 1.2/1.6}{%
+            \node[circle, color=black, fill=teal, minimum size=3pt] (\xi) at (\x, \y) {};
+          }
+          \foreach \x\y [count=\xi from 11] in {1.8/1, 0.2/1.2, 0.3/0.2, 1.5/0.3, 1.4/1.8}{%
+            \node[circle, color=black, fill=violet, minimum size=3pt] (\xi) at (\x+4, \y) {};
+          }
+
+          \draw [dashed, color=teal] (1,1) ellipse (1.3cm and 1.3cm);
+          \draw [dashed, color=violet] (1+4-.1,1) ellipse (1.3cm and 1.3cm);
+
+          \draw (1) -- (12);
+        \end{tikzpicture}
+      }
+      \caption{Single.}
+    \end{subfigure}\hfill
+    \begin{subfigure}[t]{.45\textwidth}
+      \centering
+      \resizebox{.9\textwidth}{!}{
+        \begin{tikzpicture}
+          \foreach \x\y [count=\xi from 1] in {1.7/0.9, 0.1/1.1, 0.5/0.4, 1.5/0.3, 1.2/1.6}{%
+            \node[circle, color=black, fill=teal, minimum size=3pt] (\xi) at (\x, \y) {};
+          }
+          \foreach \x\y [count=\xi from 11] in {1.8/1, 0.2/1.2, 0.3/0.2, 1.5/0.3, 1.4/1.8}{%
+            \node[circle, color=black, fill=violet, minimum size=3pt] (\xi) at (\x+4, \y) {};
+          }
+
+          \draw [dashed, color=teal] (1,1) ellipse (1.3cm and 1.3cm);
+          \draw [dashed, color=violet] (1+4-.1,1) ellipse (1.3cm and 1.3cm);
+
+          \draw (2) -- (11);
+        \end{tikzpicture}
+      }
+      \caption{Complete.}
+    \end{subfigure}\hfill
+    \begin{subfigure}[t]{.45\textwidth}
+      \centering
+      \resizebox{.9\textwidth}{!}{
+        \begin{tikzpicture}
+          \foreach \x\y [count=\xi from 1] in {1.7/0.9, 0.1/1.1, 0.5/0.4, 1.5/0.3, 1.2/1.6}{%
+            \node[circle, color=black, fill=teal, minimum size=3pt] (\xi) at (\x, \y) {};
+          }
+          \foreach \x\y [count=\xi from 11] in {1.8/1, 0.2/1.2, 0.3/0.2, 1.5/0.3, 1.4/1.8}{%
+            \node[circle, color=black, fill=violet, minimum size=3pt] (\xi) at (\x+4, \y) {};
+          }
+
+          \draw [dashed, color=teal] (1,1) ellipse (1.3cm and 1.3cm);
+          \draw [dashed, color=violet] (1+4-.1,1) ellipse (1.3cm and 1.3cm);
+
+          \foreach \x in {1,...,5}{
+            \foreach \y in {11,...,15}{
+              \draw[dashed, color=gray] (\x) -- (\y);
+            }
+          }
+        \end{tikzpicture}
+      }
+      \caption{Average.}
+    \end{subfigure}\hfill
+    \begin{subfigure}[t]{.45\textwidth}
+      \centering
+      \resizebox{.9\textwidth}{!}{
+        \begin{tikzpicture}
+          \foreach \x\y [count=\xi from 1] in {1.7/0.9, 0.1/1.1, 0.5/0.4, 1.5/0.3, 1.2/1.6}{%
+            \node[circle, color=black, fill=teal, minimum size=3pt] (\xi) at (\x, \y) {};
+          }
+          \foreach \x\y [count=\xi from 11] in {1.8/1, 0.2/1.2, 0.3/0.2, 1.5/0.3, 1.4/1.8}{%
+            \node[circle, color=black, fill=violet, minimum size=3pt] (\xi) at (\x+4, \y) {};
+          }
+
+          \draw [dashed, color=teal] (1,1) ellipse (1.3cm and 1.3cm);
+          \draw [dashed, color=violet] (1+4-.1,1) ellipse (1.3cm and 1.3cm);
+
+          \node[draw, circle, color=teal, minimum size=3pt] (cent1) at (1, 1) {};
+          \node[draw, circle, color=violet, minimum size=3pt] (cent2) at (1+4-.1,1) {};
+
+          \draw (cent1) -- (cent2);
+        \end{tikzpicture}
+      }
+      \caption{Centroid.}
+    \end{subfigure}
+    \caption{The 4 different types of linkages presented on the slide before.}
+  \end{figure}
 \end{frame}
 
 \section{Shrinkage}
