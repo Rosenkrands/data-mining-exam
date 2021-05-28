@@ -14,7 +14,7 @@ data <- tibble(obs=obs, x1=x1, x2=x2)
 
 withinss <- function(centers){
   k.out = kmeans(data%>%select(-obs), centers, nstart=10)
-  return(k.out$tot.withinss)
+  return(k.out$tot.withinss/k.out$totss)
 }
 
 centers.list = list(); for (i in 1:10) {centers.list[[i]] <- i}
@@ -28,6 +28,6 @@ tibble(scree_data) %>%
     geom_point(size=3, shape=1) +
     scale_x_continuous(breaks = seq(1,10)) +
     labs(x='Number of centers',
-         y='Total within-cluster sum of squares')
+         y='PVE')
 
 ggsave('output/scree_plot.pdf', width = 8, height = 4)

@@ -224,30 +224,27 @@
 
 \subsection{Number of clusters}
 \begin{frame}{\secname}{\subsecname}
-  
+  Prior to running K-Means we need to determine the number of clusters.
+  For some use cases this number may be predetermined by external factors.
+  If the number of clusters is not predetermined, the data itself can indicate the optimal number.
+
+  The \textbf{total sum of squares} (total variance in the data) and the \textbf{within cluster sum of squares} are given by
+  \begin{align*}
+      {\color{teal}SS_{total} = \sum_{i=1}^n (x_i - \Bar{x})^2, \quad \Bar{x} = \frac{1}{n} \sum_{i = 1}^n x_i,} \quad {\color{violet}SS_{W_k} = \sum_{i \in C_k} (x_i - \Bar{x}_k)^2, \quad \Bar{x}_k = \frac{1}{n_k}\sum_{i \in C_k} x_i.}
+  \end{align*}
+  Then the \textbf{total within sum of squares} becomes $SS_{W} = \sum_{k=1}^K SS_{W_k}$.
+  Using this we can calculate the \textbf{percentage of variance explained} as $PVE = SS_W/SS_{total}$.
 \end{frame}
 
 \begin{frame}{\secname}{\subsecname}
+  We can then use what is called the \textbf{elbow method} to determine  number of clusters.
   \begin{figure}
-    \includegraphics[width=.75\textwidth]{scripts/output/scree_plot.pdf}
-    \caption{Scree plot showing the number of clusters against the total within-cluster sum of squares.}
+    \includegraphics[width=.65\textwidth]{scripts/output/scree_plot.pdf}
+    \caption{Scree plot showing the number of clusters against percentage of variance explained.}
   \end{figure}
 \end{frame}
 
 \subsection{Hierarchical Clustering}
-\begin{frame}{\secname}{\subsecname}
-  \begin{center}
-    \hl{Todo}
-  \end{center}
-  \begin{itemize}
-    \item Introduction
-    \item Type - Agglomerative vs Divise
-    \item Pseudocode for algorithm, or just in words
-    \item Visualization with dendogram
-    \item Linkage types - (complete, single, average, centroid)
-  \end{itemize}
-\end{frame}
-
 \begin{frame}{\secname}{\subsecname}
   \begin{columns}
     \begin{column}{.7\textwidth}  
@@ -392,6 +389,10 @@
     \end{subfigure}
     \caption{The 4 different types of linkages presented on the slide before.}
   \end{figure}
+\end{frame}
+
+\begin{frame}{\secname}{\subsecname}
+  
 \end{frame}
 
 \section{Shrinkage}
