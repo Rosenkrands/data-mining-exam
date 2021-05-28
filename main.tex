@@ -107,15 +107,15 @@
 
 \section{Clustering}
 
-\subsection{Overview}
-\begin{frame}{\secname}{\subsecname}
-  \begin{itemize}
-    \item What is clustering?
-    \item K-Means optimization problem and algorithm
-    \item Implementation of the K-Means algorithm and an example
-    \item Hierarchical Clustering (briefly)
-  \end{itemize}
-\end{frame}
+% \subsection{Overview}
+% \begin{frame}{\secname}{\subsecname}
+%   \begin{itemize}
+%     \item What is clustering?
+%     \item K-Means optimization problem and algorithm
+%     \item Implementation of the K-Means algorithm and an example
+%     \item Hierarchical Clustering (briefly)
+%   \end{itemize}
+% \end{frame}
 
 \subsection{Introduction}
 \begin{frame}{\secname}{\subsecname}
@@ -397,12 +397,11 @@
 
 \section{Shrinkage}
 
-\subsection{Overview}
-\begin{frame}{\secname}{\subsecname}
-  \hl{Write theory about ridge, lasso and elastic net - including coordinate descent etc.}
-  \hl{Find an example to compare the 3 methods on}
-\end{frame}
-
+% \subsection{Overview}
+% \begin{frame}{\secname}{\subsecname}
+%   \hl{Write theory about ridge, lasso and elastic net - including coordinate descent etc.}
+%   \hl{Find an example to compare the 3 methods on}
+% \end{frame}
 
 \subsection{Variable Selection and Regularization}
 \begin{frame}{\secname}{\subsecname}
@@ -443,6 +442,16 @@
     \underbrace{\sum_{i =1}^n \left(y_i - \beta_0 - \sum_{j=1}^p \beta_j x_{ij} \right)^2}_{RSS} + \underbrace{\lambda\sum_{j=1}^p \beta_j^2}_{Penalty}, 
   \end{align}
   where $\lambda$ is a parameter that needs to be determined seperately, this is usually done by cross validation.
+
+  When $\lambda = 0$ there is no penalty and we are just doing linear regression (OLS).
+  If $\lambda \rightarrow \infty$ then $\beta_0$ will approach the mean and $\beta_j \rightarrow 0$.
+\end{frame}
+
+\begin{frame}{\secname}{\subsecname}
+  \begin{figure}
+    \includegraphics[width=.7\textwidth]{scripts/output/ridge_coefficient.pdf}
+    \caption{The effect of $\lambda$ on coefficents in a ridge regression model for the \texttt{mtcars} dataset.}
+  \end{figure}
 \end{frame}
 
 \begin{frame}{\secname}{Lasso}
