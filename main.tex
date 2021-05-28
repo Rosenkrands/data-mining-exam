@@ -454,12 +454,39 @@
   \end{figure}
 \end{frame}
 
-\begin{frame}{\secname}{Lasso}
+\begin{frame}{\secname}{\subsecname}
+  A benefit of ridge regression is that it can be solved analytically, as the minimization problem is
+  \begin{align}
+    RSS(\lambda) = (\mathbb{Y} - \mathbb{X}\beta)^\top(\mathbb{Y} - \mathbb{X}\beta) - \lambda\beta^\top\beta.
+  \end{align}
+  If we the above function be the lagrange function, differentiate w.r.t.\! $\beta$ and set this equal to zero we find that
+  \begin{align}
+    \hat{\beta}^R = (\mathbb{X}^\top\mathbb{X} + \lambda I)^{-1}\mathbb{X}^\top\mathbb{Y}.
+  \end{align}
+  It is easy to compute as it is just a closed form expression and we can again observe that for $\lambda = 0$ we get the OLS estimate.
+\end{frame}
+
+\subsection{Lasso}
+\begin{frame}{\secname}{\subsecname}
   The expression that lasso looks to minimize is the following
   \begin{align*}
     \sum_{i=1}^n \left(y_i - \beta_0 - \sum_{j=1}^p \beta_j x_{ij}\right)^2 + \lambda \sum_{j=1}^p |\beta_j|, 
   \end{align*}
   where $\lambda$, again, is a parameter that needs to be determined seperately.
+
+  As opposed to ridge regression, lasso can force coefficients to exactly zero and thereby perform variable selection.
+\end{frame}
+
+\begin{frame}{\secname}{\subsecname}
+  \begin{figure}
+    \includegraphics[width=.7\textwidth]{scripts/output/lasso_coefficient.pdf}
+    \caption{The effect of $\lambda$ on coefficents in a lasso regression model for the \texttt{mtcars} dataset.
+    Ridge coefficients are included as gray lines for reference.}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{\secname}{\subsecname}
+  
 \end{frame}
 
 \begin{frame}{\secname}{Elastic Net}
