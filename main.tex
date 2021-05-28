@@ -33,6 +33,10 @@
 % subfigure
 \usepackage{subcaption}
 
+% draw figures
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+
 % Highligthing
 \newcommand{\hl}[1]{%
   \begin{center}
@@ -216,8 +220,6 @@
 \end{frame}
 }
 
-
-
 \subsection{Hierarchical Clustering}
 \begin{frame}{\secname}{\subsecname}
   \begin{center}
@@ -230,6 +232,64 @@
     \item Visualization with dendogram
     \item Linkage types - (complete, single, average, centroid)
   \end{itemize}
+\end{frame}
+
+\begin{frame}{\secname}{\subsecname}
+  \begin{columns}
+    \begin{column}{.7\textwidth}  
+      Hierarchical clustering is a method which seeks to build a hierarchy of clusters.
+      
+      In general there are two approaches to obtain this hierarchy, starting from the bottom or from the top (so to speak):
+      \begin{enumerate}
+        \item \textbf{Agglomerative}: This is the bottom up approach, it starts by having each observation in its own cluster and then it merges the most similar together.
+        \item \textbf{Divise}: This is the top down approach, it start by putting all observations in one cluster and then splits recursively to obtain more and more homogenous clusters.
+      \end{enumerate}
+    \end{column}
+    \begin{column}{.3\textwidth}
+      \resizebox{\textwidth}{!}{
+        \begin{tikzpicture}[sloped]
+          \node (a) at (-2,0) {a};
+          \node (b) at (-1,0) {b};
+          \node (c) at (-0.5,0) {c};
+          \node (d) at (0.5,0) {d};
+          \node (e) at (1.5,0) {e};
+          \node (ab) at (-1.5,3) {};
+          \node (cd) at (0,1) {};
+          \node (cde) at (1,2) {};
+          \node (all) at (-1.5,5) {};
+          
+          \draw  (a) |- (ab.center);
+          \draw  (b) |- (ab.center);
+          \draw  (c) |- (cd.center);
+          \draw  (d) |- (cd.center);
+          \draw  (e) |- (cde.center);
+          \draw  (cd.center) |- (cde.center);
+          \draw  (ab.center) |- (all.center);
+          \draw  (cde.center) |- (all.center);
+          
+          \draw[->,-triangle 60] (-2.5,0) -- node[above]{Agglomerative} (-2.5,6);
+          \draw[->,-triangle 60] (2,6) -- node[above]{Divise} (2,0);
+        \end{tikzpicture}
+      }
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{\secname}{\subsecname}
+  
+\end{frame}
+
+\subsection{Linkage}
+\begin{frame}{\secname}{\subsecname}
+  In order to quantify the similarity between observations we need to establish a dissimilarity measure.
+  However there are many ways to define dissimilarity, or linkage, between groups of observations.
+
+  \begin{enumerate}
+    \item \textbf{Complete}:
+    \item \textbf{Single}:
+    \item \textbf{Average}:
+    \item \textbf{Centroid}:
+  \end{enumerate}
 \end{frame}
 
 \section{Shrinkage}
