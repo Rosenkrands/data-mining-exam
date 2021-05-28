@@ -138,10 +138,10 @@
   where $W(C_k)$ denotes the \textbf{within cluster variation}, in other words the dissimilarity of the group.
   \vspace{10pt}
   
-  The most common dissimilarity measure is the is the squared Euclidean distance
+  {\small The most common dissimilarity measure is the is the squared Euclidean distance
   \begin{align}
     W(C_k) := \frac{1}{|C_k|} \sum_{i,i' \in C_k} \sum_{j = 1}^p (x_{i,j} - x_{i',j})^2.
-  \end{align}
+  \end{align}}
 \end{frame}
 
 \begin{frame}{\secname}{\subsecname}
@@ -222,6 +222,18 @@
 \end{frame}
 }
 
+\subsection{Number of clusters}
+\begin{frame}{\secname}{\subsecname}
+  
+\end{frame}
+
+\begin{frame}{\secname}{\subsecname}
+  \begin{figure}
+    \includegraphics[width=.75\textwidth]{scripts/output/scree_plot.pdf}
+    \caption{Scree plot showing the number of clusters against the total within-cluster sum of squares.}
+  \end{figure}
+\end{frame}
+
 \subsection{Hierarchical Clustering}
 \begin{frame}{\secname}{\subsecname}
   \begin{center}
@@ -286,8 +298,10 @@
     \item \textbf{Single}: The smallest pairwise dissimilarity.
     \item \textbf{Complete}: The largest pairwise dissimilarity.
     \item \textbf{Average}: The average dissimilarity between observations.
-    \item \textbf{Centroid}: The dissimilarity between centroids of clusters.
+    \item \textbf{Centroid}: The dissimilarity between centroids of clusters.\footnote{Squared distance can cause inversions as we ``create'' new data points.}
   \end{enumerate}
+
+  Another consideration is what distance measure to use, typically the Euclidean distance is used, but for other use cases one might opt for the Manhattan distance etc.
 \end{frame}
 
 \begin{frame}{\secname}{\subsecname}
