@@ -486,7 +486,15 @@
 \end{frame}
 
 \begin{frame}{\secname}{\subsecname}
+  Unlike ridge regression, there does not exists an analytical solution for the lasso estimates.
+  This is because the absolute value is \textbf{not} differentiable.
   
+  Therefore we must resort to numerical optimization.
+
+  For this we can use a method called \textbf{coordinate descent}, that works in the following way:
+  
+  Instead of trying to solve for all parameters at once we will look for a solution one dimension at a time.
+  When we are done with one dimension we go to the next and then iterate through until we converge.
 \end{frame}
 
 \begin{frame}{\secname}{Elastic Net}

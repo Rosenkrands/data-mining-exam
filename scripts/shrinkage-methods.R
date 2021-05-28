@@ -41,3 +41,4 @@ lasso.data %>%
   scale_x_log10() +
   labs(y="Standardized coefficients", color = "Variable", linetype = "Variable")
 ggsave('output/lasso_coefficient.pdf', width=8,height=4)
+
