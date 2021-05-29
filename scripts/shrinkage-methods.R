@@ -42,3 +42,18 @@ lasso.data %>%
   labs(y="Standardized coefficients", color = "Variable", linetype = "Variable")
 ggsave('output/lasso_coefficient.pdf', width=8,height=4)
 
+
+# Using glmnet function to build the lasso regression in r
+lambda_seq <- 10^seq(4, -2, by = -.1)
+elastic.fit <- glmnet(x_var, y_var, alpha = .1, lambda  = lambda_seq)
+elastic.data <- tibble(as.data.frame(t(as.matrix(coef(elastic.fit)))[,-1])) %>%
+  mutate(lambda = lambda_seq) %>%
+  pivot_longer(cols = !lambda)
+
+elastic.data %>%
+  ggplot(aes(x = lambda, y = value, color=name, linetype = name)) +
+  # geom_line(data=ridge.data, aes(x=lambda,y=value,group=name),color='gray') +
+  geom_line() +
+  scale_x_log10() +
+  labs(y="Standardized coefficients", color = "Variable", linetype = "Variable")
+

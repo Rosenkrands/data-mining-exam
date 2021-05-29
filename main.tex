@@ -600,15 +600,16 @@
     \beta_k < 0 \quad \Leftrightarrow \quad N^{-1}r_k^\top x_k + \lambda < 0 \quad \Leftrightarrow \quad N^{-1}r_k^\top x_k < - \lambda. 
   \end{align}
 
-  Ultimately we find that
+  Ultimately we find that, these are the values to update parameters by
   \begin{align}
     \hat{\beta}_k =
     \begin{cases}
-      \left(N^{-1} x_k^\top x_k\right)^{-1}\left( N^{-1} r_k^\top x_k + \lambda\right) &\text{if } N^-1r_k^\top x_k < -\lambda\\
-      0 &\text{if } -\lambda \leq N^-1r_k^\top x_k \leq \lambda\\
-      \left(N^{-1} x_k^\top x_k\right)^{-1}\left( N^{-1} r_k^\top x_k - \lambda\right) &\text{if } N^-1r_k^\top x_k > \lambda
-    \end{cases}.
+      \left(N^{-1} x_k^\top x_k\right)^{-1}\left( N^{-1} r_k^\top x_k + \lambda\right) &\text{if } N^{-1}r_k^\top x_k < -\lambda\\
+      0 &\text{if } -\lambda \leq N^{-1}r_k^\top x_k \leq \lambda\\
+      \left(N^{-1} x_k^\top x_k\right)^{-1}\left( N^{-1} r_k^\top x_k - \lambda\right) &\text{if } N^{-1}r_k^\top x_k > \lambda
+    \end{cases},
   \end{align}
+  and we remember that $r_k$ is the residual from the model w.o.\! the $k$'th regressor.
 \end{frame}
 
 \begin{frame}{\secname}{Elastic Net}
