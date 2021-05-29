@@ -36,8 +36,6 @@
 % draw figures
 \usepackage{tikz}
 \usetikzlibrary{arrows}
-% \usetikzlibrary{shapes.misc}
-% \tikzset{cross/.style={cross out, draw=black, minimum size=2*(#1-\pgflinewidth), inner sep=0pt, outer sep=0pt}
 
 % Highligthing
 \newcommand{\hl}[1]{%
@@ -612,12 +610,52 @@
   and we remember that $r_k$ is the residual from the model w.o.\! the $k$'th regressor.
 \end{frame}
 
-\begin{frame}{\secname}{Elastic Net}
+\subsection{Elastic Net}
+\begin{frame}{\secname}{\subsecname}
   The method is a compromise between Ridge Regression and Lasso as it minimizes
   \begin{align*}
     \sum_{i=1}^n \left( y_i - \beta_0 - \sum_{j=1}^p \beta_j x_{ij}\right)^2 + \lambda \sum_{j=1}^p \left(\alpha |\beta_j| + (1 - \alpha)\beta_j^2\right),
   \end{align*}
   note that here we have the additional parameter $\alpha$ that determines the weighting of the two norms.
+\end{frame}
+
+\begin{frame}{\secname}{\subsecname}
+  \begin{columns}
+    \begin{column}{.5\textwidth}
+      \begin{itemize}
+        \item The figure illustrates the feasible region, in the case of two variables, on the RSS surface.
+        \item Most likely the OLS estimate will be somwhere outside the shapes plotted.
+        \item A lasso estimate is more likely to be at the edges.
+        \item Elastic net keeps the pointy edges but rounds the sides (depending on $\alpha$).
+        \item Elastic net performs variable selection like the lasso, but shrinks correlated regressors like ridge.
+      \end{itemize}
+    \end{column}
+    \begin{column}{.5\textwidth}
+      \begin{figure}
+        \centering
+        \begin{tikzpicture}
+          \draw[->] (-3,0) -- (3,0);
+          \node[anchor=west] at (0,2.8) {$\beta_1$};
+          \draw[->] (0,-2.2) -- (0,2.8);
+          \node[anchor=north west] at (3,0) {$\beta_2$};
+          
+          \draw[color=orange] (2,0) -- (0,-2) -- (-2,0) -- (0,2) -- (2,0);
+          \draw[dashed, color=teal] (2,0) to [bend left=20] (0,-2) to [bend left=20] (-2,0) to [bend left=20] (0,2) to [bend left=20] (2,0);
+          \draw[color=violet] (0,0) circle (2);
+        \end{tikzpicture}
+        \caption{The feasible region for {\color{orange} ridge}, {\color{violet} lasso} and {\color{teal} elastic net} ($\alpha = .5$).}
+      \end{figure}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\subsection{Scaling of variables}
+\begin{frame}{\secname}{\subsecname}
+  For both shrinkage methods it is important to scale the variables before fitting the model.
+
+  Contrary to linear regression where the scaling of variables are absorbed in the coefficients, this will affect the penalty term for both shrinkage methods.
+
+  For example if a variable takes very large values it will get a higher penalty than a variable that takes small values, just because of the unit of measurement.
 \end{frame}
 
 \section{Classification}
