@@ -532,7 +532,16 @@
 \begin{frame}{\secname}{\subsecname}
   \begin{columns}
     \begin{column}{.7\textwidth}
-      
+      As there are lots of lines tangent to the absolute value in zero, we can summarize the subgradient as
+      \begin{align}
+        \lambda\partial|\beta_k| =
+        \begin{cases}
+          -\lambda &\text{if } \beta_k < 0 \\
+          [-\lambda, \lambda] &\text{if } \beta_k = 0\\
+          \lambda &\text{if } \beta_k > 0
+        \end{cases},
+      \end{align}
+      for $\beta_k = 0$ the gradient can take all values between -1 and 1.
     \end{column}
     \begin{column}{.3\textwidth}      
       \begin{figure}
@@ -565,6 +574,10 @@
       \end{figure}
     \end{column}
   \end{columns}
+\end{frame}
+
+\begin{frame}{\secname}{\subsecname}
+  
 \end{frame}
 
 \begin{frame}{\secname}{Elastic Net}
