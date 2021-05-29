@@ -677,6 +677,21 @@
   Therefore when dealing with categorical variable the aim of the model is to predict the probability that an observation belongs to a certain category, rather than the category itself.
 \end{frame}
 
+\subsection{Logistic Regression}
+\begin{frame}{\secname}{\subsecname}
+  To begin with let us assume the simple case that $y\in \{0,1\}$ and that we would like to model
+  \begin{align}
+    p(Y = 1 | X_i) = p(X_i) = \beta_0 + \beta_1 x_1 + \cdots + \beta_px_p = X_i \mathbb{B}.
+  \end{align}
+  Given that we know probabilities lie between 0 and 1, we would like to transform the linear function such that the output is between 0 and 1.
+
+  The most popular, although there are several, would be the logistic function
+  \begin{align}
+    p(X_i) = \frac{e^{X_i \mathbb{B}}}{1 + e^{X_i \mathbb{B}}}.
+  \end{align}
+  For $X_i \beta \rightarrow \infty$ then $p(X_i) \rightarrow 1$ and for $X_i \beta \rightarrow - \infty$ then $p(X_i) \rightarrow 0$.
+\end{frame}
+
 \subsection{Linear Discriminant Analysis (LDA)}
 \begin{frame}{\secname}{\subsecname}
   Suppose we have a dataset with a response variable $y\in\{0,\ldots,L\}$, explanatory variables $x_1, \ldots, x_p$ and that we would like to model
@@ -790,6 +805,14 @@
     \end{subfigure}
     \caption{Classification regions for LDA and QDA performed on the \textit{Iris} dataset, considering only the variables \textit{sepal width} and \textit{sepal length}.
     Note that the LDA boundaries are linear while QDA include a non-linear boundary.}
+  \end{figure}
+\end{frame}
+
+\subsection{Example using Auto dataset}
+\begin{frame}{\secname}{\subsecname}
+  \begin{figure}
+    \includegraphics[width=.55\textwidth]{scripts/output/mpg_roc.pdf}
+    \caption{ROC curves for 3 models on the \textit{auto} dataset from the \texttt{ISLR} package. We are predicting whether a car have mpg above the median using displacement, weight, year and horsepower.}
   \end{figure}
 \end{frame}
 

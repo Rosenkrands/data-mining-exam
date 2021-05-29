@@ -43,9 +43,9 @@ lasso.data %>%
 ggsave('output/lasso_coefficient.pdf', width=8,height=4)
 
 
-# Using glmnet function to build the lasso regression in r
+# Using glmnet function to build the elastic net regression in r
 lambda_seq <- 10^seq(4, -2, by = -.1)
-elastic.fit <- glmnet(x_var, y_var, alpha = .1, lambda  = lambda_seq)
+elastic.fit <- glmnet(x_var, y_var, alpha = .5, lambda  = lambda_seq)
 elastic.data <- tibble(as.data.frame(t(as.matrix(coef(elastic.fit)))[,-1])) %>%
   mutate(lambda = lambda_seq) %>%
   pivot_longer(cols = !lambda)
