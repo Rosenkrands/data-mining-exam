@@ -492,9 +492,79 @@
   Therefore we must resort to numerical optimization.
 
   For this we can use a method called \textbf{coordinate descent}, that works in the following way:
-  
+
   Instead of trying to solve for all parameters at once we will look for a solution one dimension at a time.
   When we are done with one dimension we go to the next and then iterate through until we converge.
+\end{frame}
+
+\begin{frame}{\secname}{\subsecname}
+  For the following computations we will assume that the data have been demeaned so we can disregard $\beta_0$.
+
+  We then start the coordinate descent by the following minimization problem ({\color{orange}orange} term is just to simplify computation, $N$ is the number of observations and $p$ is the number of variables)
+  \begin{align}
+    \min_{\beta_j} \Bigg\{ {\color{orange}\dfrac{1}{2N}} \sum_{i=1}^N \left( y_i - \sum_{j=1}^p x_j \beta_j\right)^2 + \lambda \sum_{j=1}^p |\beta_j| \Bigg\}.
+  \end{align}
+  Let us define a function $L$ as
+  \begin{align}
+    L = \dfrac{1}{2N} \sum_{i=1}^N \left( y_i - \sum_{j=1}^p x_j \beta_j\right)^2 + \lambda \sum_{j=1}^p |\beta_j|
+  \end{align}
+\end{frame}
+
+\begin{frame}{\secname}{\subsecname}
+  If we then differentiate w.r.t.\! $\beta_k$ we get
+  \begin{align}
+    \frac{\partial L}{\partial \beta_k} &= N^{-1} \sum_{i=1}^N \left( y_i - \sum_{j=1}^p x_j \beta_j\right)\left(-x_k\right) + \lambda \underbrace{{\color{orange}\partial|\beta_k|}}_{Subgradient} \\
+    &= N^{-1} \sum_{i=1}^N \left( y_i - \sum_{j\neq k}^p x_j \beta_j - x_k \beta_k\right)\left(-x_k\right) + \lambda \partial|\beta_k| \\
+    &= N^{-1} \sum_{i=1}^N \left( {\color{violet}y_i - \sum_{j\neq k}^p x_j \beta_j}\right)\left(-x_k\right) + N^{-1}\beta_k\sum_{i=1}^N x_k^2 + \lambda \partial|\beta_k|
+  \end{align}
+  We can define the purple term as $r_k = y_i - \sum_{j\neq k}^p x_j \beta_j$ as this is the residual from the model w.o. the $k$'th regressor.
+\end{frame}
+
+\begin{frame}{\secname}{\subsecname}
+  We can then write
+  \begin{align}
+    &=-N^{-1} \sum_{i=1}^N \left( r_k x_k\right) + N^{-1}\beta_k\sum_{i=1}^N x_k^2 + \lambda \partial|\beta_k| \\
+    &=-N^{-1} r_k^\top x_k + N^{-1} x_k^\top x_k\beta_k + {\color{orange}\lambda \partial|\beta_k|},
+  \end{align}
+  So now we need to figure out what to do with the {\color{orange} subgradient}.
+\end{frame}
+
+\begin{frame}{\secname}{\subsecname}
+  \begin{columns}
+    \begin{column}{.7\textwidth}
+      
+    \end{column}
+    \begin{column}{.3\textwidth}      
+      \begin{figure}
+        \begin{subfigure}[t]{\textwidth}
+          \centering
+          \begin{tikzpicture}
+            \draw[->] (-1,0) -- (1,0);
+            \draw[->] (0,-.5) -- (0,1);
+            \node[anchor=north] at (1,0) {{\scriptsize $x$}};
+
+            \draw[thick] (-.8,.8) -- (0,0) -- (.8,.8);
+          \end{tikzpicture}
+          \caption{$f(x) = |x|$.}
+        \end{subfigure}
+        \vfill
+        \begin{subfigure}[t]{\textwidth}
+          \centering
+          \begin{tikzpicture}
+            \draw[->] (-1,0) -- (1,0);
+            \draw[->] (0,-.8) -- (0,.8);
+            \node[anchor=north] at (1,0) {{\scriptsize $x$}};
+
+            \draw[thick] (-1,-.5) -- (0,-.5) -- (0,.5) -- (1,.5);
+            \node[anchor=west] at (0,-.5) {{\scriptsize -1}};
+            \node[anchor=east] at (0,.5) {{\scriptsize 1}};
+          \end{tikzpicture}
+          \caption{$\partial f(x)$.}
+        \end{subfigure}
+        \caption{The absolute value and its gradient.}
+      \end{figure}
+    \end{column}
+  \end{columns}
 \end{frame}
 
 \begin{frame}{\secname}{Elastic Net}
