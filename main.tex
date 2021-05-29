@@ -577,7 +577,38 @@
 \end{frame}
 
 \begin{frame}{\secname}{\subsecname}
-  
+  This means that we can rewrite the derivative as the following
+  \begin{align}
+    \frac{\partial L}{\partial \beta_k} = 
+    \begin{cases}
+      -N^{-1} r_k^\top x_k + N^{-1} x_k^\top x_k\beta_k - \lambda &\text{if } \beta_k < 0 \\
+      [-N^{-1} r_k^\top x_k - \lambda, -N^{-1} r_k^\top x_k - \lambda] &\text{if } \beta_k = 0 \\
+      -N^{-1} r_k^\top x_k + N^{-1} x_k^\top x_k\beta_k + \lambda &\text{if } \beta_k > 0
+    \end{cases}.
+  \end{align}
+  Setting this equal to zero and solving for $\beta_k$ in the 3 cases gives us the estimates, we take the case $\beta_k < 0$ as an example
+  \begin{align}
+    \frac{\partial L}{\partial \beta_k} = 0 \Leftrightarrow -N^{-1} r_k^\top x_k + N^{-1} x_k^\top x_k\beta_k - \lambda &= 0 \\
+    N^{-1} x_k^\top x_k\beta_k &= N^{-1} r_k^\top x_k + \lambda \\
+    \beta_k &=\left(N^{-1} x_k^\top x_k\right)^{-1}\left({\color{orange} N^{-1} r_k^\top x_k + \lambda}\right).
+  \end{align}
+\end{frame}
+
+\begin{frame}{\secname}{\subsecname}
+  Note that
+  \begin{align}
+    \beta_k < 0 \quad \Leftrightarrow \quad N^{-1}r_k^\top x_k + \lambda < 0 \quad \Leftrightarrow \quad N^{-1}r_k^\top x_k < - \lambda. 
+  \end{align}
+
+  Ultimately we find that
+  \begin{align}
+    \hat{\beta}_k =
+    \begin{cases}
+      \left(N^{-1} x_k^\top x_k\right)^{-1}\left( N^{-1} r_k^\top x_k + \lambda\right) &\text{if } N^-1r_k^\top x_k < -\lambda\\
+      0 &\text{if } -\lambda \leq N^-1r_k^\top x_k \leq \lambda\\
+      \left(N^{-1} x_k^\top x_k\right)^{-1}\left( N^{-1} r_k^\top x_k - \lambda\right) &\text{if } N^-1r_k^\top x_k > \lambda
+    \end{cases}.
+  \end{align}
 \end{frame}
 
 \begin{frame}{\secname}{Elastic Net}
