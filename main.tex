@@ -580,7 +580,7 @@
     \frac{\partial L}{\partial \beta_k} = 
     \begin{cases}
       -N^{-1} r_k^\top x_k + N^{-1} x_k^\top x_k\beta_k - \lambda &\text{if } \beta_k < 0 \\
-      [-N^{-1} r_k^\top x_k - \lambda, -N^{-1} r_k^\top x_k - \lambda] &\text{if } \beta_k = 0 \\
+      [-N^{-1} r_k^\top x_k - \lambda, -N^{-1} r_k^\top x_k + \lambda] &\text{if } \beta_k = 0 \\
       -N^{-1} r_k^\top x_k + N^{-1} x_k^\top x_k\beta_k + \lambda &\text{if } \beta_k > 0
     \end{cases}.
   \end{align}
@@ -659,12 +659,6 @@
 \end{frame}
 
 \section{Classification}
-
-\subsection{Overview}
-\begin{frame}{\secname}{\subsecname}
- \hl{Add something about logit and naive bayes, very brief}
- \hl{Maybe include example with an ROC curve}
-\end{frame}
 
 \subsection{Introduction}
 \begin{frame}{\secname}{\subsecname}
@@ -856,11 +850,6 @@
 
 \section{Trees}
 
-\subsection{Overview}
-\begin{frame}{\secname}{\subsecname}
-
-\end{frame}
-
 \subsection{Introduction}
 \begin{frame}{\secname}{\subsecname}
   Tree-based methods are supervised learning methods which can be used for both regression and classification.
@@ -873,6 +862,79 @@
 \subsection{Classification and Regression Trees (CART)}
 \begin{frame}{\secname}{\subsecname}
   The purpose of the CART algorithm is to decide on the split points. This is done in a greedy way one split at a time, as the task of checking all possible combinations of splits would be computationally infeasible.
+
+  We look for split points by solving (here we assume that the loss function in the $\ell_2$ norm)
+  {\small\begin{align*}
+      \min_s \left[\min_{c_1} \sum_{x_i < s} \left(y_i - c_1\right)^2 + \min_{c_2} \sum_{x_i \geq s}\left(y_i - c_2\right)^2\right],  
+  \end{align*}}
+  so we wish to find a split point $s$ that minimizes the loss function on either side. 
+  Recall that {\small $$\Tilde{y}_1 = min_{c_1} \sum_{x_i < s} (y_i - c_1)^2 \text{ and } \Tilde{y}_2 = min_{c_2} \sum_{x_i \geq s} (y_i - c_2)^2.$$} 
+  Where $\Tilde{y}_1$, $\Tilde{y}_2$ are the means for $y_i$ such that $x_i < s$ and $x_i \geq s$ respectively.
+\end{frame}
+
+\begin{frame}{\secname}{\subsecname}
+  The split points we find produces basis functions $b_1(x) = I(x_i < s)$ and $b_2(x) = I(x_i \geq s)$, which would be equivalent to fitting the model
+  \begin{align}
+      y_i = \beta_1 b_1 (x_i) + \beta_2 b_2 (x_i).
+  \end{align}
+  Next step is to repeat the same procedure in the new regions, that is we find the best split points in each of the new regions and the choose the best.
+
+  We do this until hit some predetermined stopping criteria, could be minimum number of observations in each region, not enough increase in fit etc.
+\end{frame}
+
+\begin{frame}{\secname}{\subsecname}
+  \begin{figure}
+    \includegraphics[width=.6\textwidth]{scripts/output/uni-tree.pdf}
+    \caption{A decision tree explaining \textit{miles per gallon} by \textit{horsepower}.}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{\secname}{\subsecname}
+  For the univariate case it is pretty straigth forward, but what if we have more variables?
+
+  It is still pretty straightforward, so the idea is to obtain possible cuts for each variable and the choose the best.
+  Then we get two regions and we repeat the same procedure in each.
+  This method is called \textbf{recursive binary splitting}.
+
+  Formally this can be expressed as, first defining regions
+  {\small\begin{align}
+    R_1 (j,s) = \{ X | X_j < s \}, \quad
+    R_2 (j,s) = \{X | X_j \geq s\},
+  \end{align}}
+  then finding the cutpoint amounts to solving
+  {\small\begin{align}
+    \min_{j,s} \left[ \sum_{ \{ i | x_i \in R_1 (j,s)\} } (y_i - \tilde{y}_{R_1})^2 + \sum_{\{ i | x_i \in R_2(j,s) \}} (y_i - \tilde{y}_{R_2})^2\right].
+  \end{align}}
+\end{frame}
+
+\begin{frame}{\secname}{\subsecname}
+  \begin{figure}
+    \includegraphics[width=.6\textwidth]{scripts/output/multi-tree.pdf}
+    \caption{A decision tree explaining \textit{miles per gallon} by \textit{horsepower} and \textit{weight}.}
+  \end{figure}
+\end{frame}
+
+\subsection{Pruning}
+\begin{frame}{\secname}{\subsecname}
+  A
+\end{frame}
+
+\subsection{Comparing Linear Regression and CART}
+
+\begin{frame}{\secname}{\subsecname}
+  \begin{columns}
+    \begin{column}{.5\textwidth}
+      \begin{itemize}
+        \item So how do CART compare to linear regression?
+        \item Well it depends on the data.
+      \end{itemize}
+    \end{column}
+    \begin{column}{.5\textwidth}
+      \begin{figure}
+        \includegraphics[width=.9\textwidth]{scripts/output/types-of-data.png}
+      \end{figure}
+    \end{column}
+  \end{columns}
 \end{frame}
 
 \begin{frame}{\secname}{\subsecname}

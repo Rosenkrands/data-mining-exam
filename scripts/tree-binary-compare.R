@@ -17,11 +17,12 @@ compare_binary <- function(i) {
   
   x1 <- rnorm(500)
   x2 <- rnorm(500)
+  x3 <- rnorm(500)
   eps <- rnorm(500)/2
   
-  y1 <- 1 + 2*x1 + 3*x2 + eps
+  y1 <- 1 + 2*x1 + 3*x2 + 4*x3 + eps
   
-  data1 <- data.frame(y1, x1, x2)
+  data1 <- data.frame(y1, x1, x2, x3)
   
   lm_model <- lm(y1 ~ ., data = data1)
   lm_pred <- predict(lm_model, data = data1)
@@ -33,7 +34,7 @@ compare_binary <- function(i) {
   data1$tree <- tree_pred
   
   rslt1 <- data1 %>%
-    dplyr::select(-c(x1, x2)) %>%
+    dplyr::select(-c(x1, x2, x3)) %>%
     pivot_longer(cols = c(lm, tree)) %>%
     group_by(name) %>%
     summarise(rmse = sqrt(mean((y1 - value)^2))) %>%
@@ -41,9 +42,10 @@ compare_binary <- function(i) {
   
   x11 <- as.numeric(x1 > 0)
   x22 <- as.numeric(x2 > 0)
-  y11 <- 1 + 2*x11 + 3*x22 + eps
+  x33 <- as.numeric(x3 > 0)
+  y11 <- 1 + 2*x11 + 3*x22 + 4*x33 + eps
   
-  data2 <- tibble(y11, x11, x22)
+  data2 <- tibble(y11, x11, x22, x33)
   
   lm_model <- lm(y11 ~ ., data = data2)
   lm_pred <- predict(lm_model, newdata = data2)
@@ -55,7 +57,7 @@ compare_binary <- function(i) {
   data2$tree <- tree_pred
   
   rslt2 <- data2 %>%
-    dplyr::select(-x11, -x22) %>%
+    dplyr::select(-x11, -x22, -x33) %>%
     tidyr::pivot_longer(cols = c(lm, tree)) %>%
     group_by(name) %>%
     summarise(rmse = sqrt(mean((y11 - value)^2))) %>%
