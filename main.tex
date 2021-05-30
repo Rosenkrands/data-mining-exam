@@ -818,7 +818,40 @@
 
 \subsection{Naive Bayes}
 \begin{frame}{\secname}{\subsecname}
+  The (Naive) Bayes classifier is an example of a parametric classifier (meaning that the number of parameters is fixed), it builds on Bayes theorem
+  \begin{align}
+    P(Y = i| X) = \frac{P(Y = i)P(X| Y=i)}{P(X)}.
+  \end{align}
+  New data is then assigned to the class with the highest probability given the explanatory variables
+  \begin{align}
+    \hat{Y} = \textit{ arg max}_i P(Y = i)P(X | Y = i).
+  \end{align}
+  This means that there are two things we need to model, the first is $P(Y = i)$, but this is simply modelled by the proportions of the dataset.
+\end{frame}
 
+\begin{frame}{\secname}{\subsecname}
+  The second one is $P(X | Y = i)$, note that $X$ is a $p$-dimensional vector, making the distribution multivariate.
+  
+  However as estimating multivariate distribution requires lots of computation and suffers from the curse of dimensionality, an assumption in Naive Bayes is that $X$ is independent between classes
+  \begin{align}
+    P(X | Y_i) = P(X_1|Y)P(X_2|Y)\cdots P(X_p|Y).
+  \end{align}
+  With this assumption we can rewrite
+  \begin{align}
+    P(X | Y = i) = \prod_{j=1}^p P(X_j | Y = i),
+  \end{align}
+  which enables us to estimate all marginal (univariate) distributions one by one.
+\end{frame}
+
+\begin{frame}{\secname}{\subsecname}
+  Typically the we assume that the ditributions are normal, but we can also use others and even seperate distributions for each explanatory variable.
+
+  In the case of normally distributed variables we only need to estimate the mean and variance as $X_j | Y = i \sim N(\mu_{j,i}, \sigma^2_{j,i})$, where we use the usual estimates
+  \begin{align}
+    \mu_{j,i} = \frac{1}{N_i} \sum_{x_k | y_k = i} x_{j,i}, \quad
+    \sigma_{j,i}^2 = \frac{1}{N_i} \sum_{x_k | y_k = i}(x_{j,i} - \mu_{j,i})^2.
+  \end{align}
+  Despite the assumption of independence the method tends to work well in practice, although if the assumption is clearly not true we will get biased estimator.
 \end{frame}
 
 \section{Trees}
