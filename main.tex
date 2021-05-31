@@ -916,7 +916,44 @@
 
 \subsection{Pruning}
 \begin{frame}{\secname}{\subsecname}
-  A
+  The next thing we need to consider is whether we are stopping at the \textbf{right} time.
+  \begin{enumerate}
+    \item In general a \textbf{larger tree} would fit the data better, but may have \textbf{high variance}.
+    \item Whereas a \textbf{smaller tree} may not fit the data well, and thereby have \textbf{high bias}.
+  \end{enumerate}
+  To deal with the bias-variance tradeoff we do what is called \textbf{pruning}.
+  In order to perform the pruning we neeed a large tree, the pruning part is then to find the subtree that leads to the lowest generalization (out-of-sample) error.
+
+  One way is to go through all subtrees, but this will not scale to large trees.
+
+  To do this in a more time sensible manner we use a greedy approach, this is called \textbf{weakest link pruning} and works by always pruning the cheapest split (in terms of the loss).
+\end{frame}
+
+\begin{frame}{\secname}{\subsecname}
+  This is done by minimizing (for $\alpha \geq 0$)
+  \begin{align}
+    C_{\alpha} (T) = \sum_{m=1}^{|T|} \sum_{ \{ i | x_i \in R_m \}} {\color{orange}(y_i - \hat{y}_{R_m})^2} + {\color{violet}\alpha | T |},
+  \end{align}
+  where $|T|$ denotes the number of leafs and $R_m$ is the region corresponding the $m$'th leaf.
+  \begin{itemize}
+    \item The {\color{orange} orange} term relates to {\color{orange}\textbf{how well we fit the data}},
+    \item The {\color{violet} purple} term is a {\color{violet}\textbf{penalty of the complexity}}.
+  \end{itemize}
+\end{frame}
+
+\subsection{CART Algorithm}
+\begin{frame}{\secname}{\subsecname}
+  The algorithm of CART can be descriped by the following steps; 
+ \begin{enumerate}
+     \item Use \textbf{recursive binary splitting} to grow a large tree on the training data, stopping only when each terminal node has fewer than some minimum number of observations. 
+     \item Apply \textbf{weakest link pruning} to the large tree in order to obtain a sequence of best subtrees as a function of $\alpha$. 
+     \item Use $K$-fold cross-validation to choose $\alpha$. 
+     \item Return the \textbf{subtree from step 2}, that corresponds to the chosen value of $\alpha$. 
+ \end{enumerate}
+ \begingroup
+ \footnotesize
+ To use CART for classification we need to choose a proper loss function, could be missclassification error, Gini index, cross-entropy etc.%, the last to take ``homogeneity'' into account (if we have a class of only zero)
+ \endgroup
 \end{frame}
 
 \subsection{Comparing Linear Regression and CART}
@@ -972,19 +1009,94 @@
   \end{figure}
 \end{frame}
 
+\subsection{Summary of CART}
+\begin{frame}{\secname}{\subsecname}
+  In general the procedure is simple and easy to interpret, handles categorical variables, perform variable selection.
+
+  Unfortunately it is also unstable, meaning a few observations can dramatically impact the outcome of the model.
+
+  There exists several methods to overcome these disadvantages
+  \begin{enumerate}
+    \item \textbf{Bagging}
+    \item \textbf{Random Forest}
+    \item \textbf{Boosting}
+  \end{enumerate}
+\end{frame}
+
 \subsection{Bagging}
 \begin{frame}{\secname}{\subsecname}
+  Bagging (Bootstrap Aggregation) is a method used to \textbf{reduce the variance} of an algorithm.
 
+  This is done by taking a number of random samples with replacement (\textbf{bootstrap samples}) from the dataset and the fitting a tree on each of the samples.
+
+  Formally we calculate $B$ trees, $\hat{f}^1(x), \hat{f}^2(x), \ldots, \hat{f}^B(x)$, using separate bootstrap samples. 
+  Then to get the final prediction we take either the {\color{orange}average} or a {\color{violet}majority vote}
+  \begin{align}
+    {\color{orange}\hat{f}_{avg}(x) = \frac{1}{B} \sum_{j=1}^B \hat{f}^j(x)}, \quad
+    {\color{violet}\hat{f}_{\textit{avg}}(x) = \textit{ arg max}_k \sum_{j=1}^B \mathbf{1}(\hat{f}^j(x) = k)}. 
+  \end{align}
+  The parameter $B$ is not critical as increasing it will not lead to overfitting.
+\end{frame}
+
+\begin{frame}{\secname}{\subsecname}
+  Bagging gets improved accuracy when compared to a single tree, but we lose the interpretability we have with a single tree and we need to resort to measures of variable importance when trying to determine the important variables.
+
+  Variance is reduce because of the averaging, but as much of the data is shared between samples the predictions will be highly dependent.
+  So one could imagine reducing the variance even more if we could obtain less dependent predictions.
+
+  This is the idea behind the next method \textbf{Random Forest}.
 \end{frame}
 
 \subsection{Random Forest}
 \begin{frame}{\secname}{\subsecname}
+  In the case of a \textbf{single strong predictor in the dataset}, most or all of the trees obtained from bagging would split on this variable first and most \textbf{trees would be quite similar}.
 
+  The basic principle is the same as in bagging, the difference is that when constructing a new tree we take a \textbf{random sample of the predictors}, of size $m$, to use in the construction.
+
+  Note that if we have $p$ predictors and $m = p$ we get bagging, so we could interpret bagging as random forest but selecting all predictors each time.
 \end{frame}
 
 \subsection{Boosting}
 \begin{frame}{\secname}{\subsecname}
-
+  
+  \begin{columns}
+    \begin{column}{.5\textwidth}
+      \begin{itemize}
+        \item The last method is fundamentally different from the other two.
+        \item There are no chance, instead we try to iteratively improve the fit.
+        \item Number of trees $B$ is related to the shrinkage $\lambda$.
+        \item The parameter $d$ controls the complexity of the trees in the ensemble, often a small number, like $d=1$ is sufficient.
+        \item Risk of overfitting with too large $B$ or too low $\lambda$, can be controlled with cross validation.
+      \end{itemize}
+    \end{column}
+    \begin{column}{.5\textwidth}
+      \begingroup
+      \footnotesize
+      \begin{enumerate}
+        \item Set $\hat{f}(x) = 0$ and $r_i = y_i$ for all $i$ in the training set. 
+        \item For $b = 1,2, \ldots, B$ repeat
+        \begin{enumerate}
+          \begingroup
+          \footnotesize
+          \item Fit a tree $\hat{f}^b$ with $d$ splits to the training data $(X, r)$
+          \item Update $\hat{f}$ by adding in a shrunken version of the new tree: 
+          \begin{align*}
+              \hat{f}(x) \leftarrow \hat{f}(x) + \lambda \hat{f}^b(x). 
+          \end{align*}
+          \item Update the residuals, 
+          \begin{align*}
+              r_i \leftarrow r_i - \lambda \hat{f}^b(x_i). 
+          \end{align*}
+          \endgroup
+        \end{enumerate}
+        \item Output the boosted model
+        \begin{align*}
+            \hat{f}(x) = \sum_{b=1}^B \lambda \hat{f}^b(x)
+        \end{align*}
+      \end{enumerate}
+      \endgroup
+    \end{column}
+  \end{columns}
 \end{frame}
 
 \section{Support Vector Machines}
