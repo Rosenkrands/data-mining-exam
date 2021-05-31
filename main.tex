@@ -1101,7 +1101,58 @@
 
 \section{Support Vector Machines}
 
-\subsection{Overview}
+\subsection{Optimal Seperating Hyperplanes}
+\begin{frame}{\secname}{\subsecname}
+  The idea behind optimal seperating hyperplanes is to find a hyperplane, in the span of the explanatory variables, such that observations from different categories lie on different sides of the hyperplane.
+
+  If we let $X_1, \ldots, X_p$ be explanatory variables for a binary response variable and define scalars $\beta_0, \beta_1, \ldots, \beta_p$.
+  When then define a hyperplane by points that satisfy
+  \begin{align}
+    \beta_0 + \beta_1 X_1 + \cdots \beta_pX_p = 0. 
+  \end{align}
+  As the coding for the two classes in arbitrary we can let the response variable $y \in \{-1,1\}$.
+\end{frame}
+
+\begin{frame}{\secname}{\subsecname}
+  Then we look for $\beta_0, \beta_1, \ldots, \beta_p$ such that all observations with $y_i = -1$ are on one side and vice versa.
+  More formally this means that we seek coefficients s.t.
+  \begin{align}
+    \beta_0 + \beta_1x_{i1} + \cdots + \beta_p x_{ip} > 0 &\text{ if } y_1 = 1, \\
+    \beta_0 + \beta_1x_{i1} + \cdots + \beta_p x_{ip} < 0 &\text{ if } y_1 = -1. 
+  \end{align}
+  Giving the encoding we use this can be simplified to
+  \begin{align}
+    y_i \left(\beta_0 + \beta_1 x_{i1} + \cdots + \beta_p x_{ip}\right) > 0. 
+  \end{align}
+  Note that if we find such a hyperplane, it would entail that there exists an infinite amount of them.
+  But then how do we find the \textbf{best}.
+\end{frame}
+
+\begin{frame}{\secname}{\subsecname}
+  Before we can find the \textbf{best} hyperplane, we need to decide what we mean by that.
+  A common criteria is the hyperplane that is \textbf{farthest away from the observations}.
+
+  Finding the hyperplane that is farthest away from all observations amounts to finding the hyperplane that is farthest from the observation that closest to it.
+  This smallest distance from an observation to the hyperplane is called the \textbf{margin}.
+  In other words we look for the hyperplane with \textbf{maximal margin}.
+
+  Finding the maximal margin is equivalent to solving
+  \begin{align}
+    \min_x \| x - x_0 \| \text{ subject to } \beta_0 + \beta_1x_{i1} + \cdots + \beta_p x_{ip} = 0.
+  \end{align}
+  It can be shown that the solution is the {\color{orange} orange term} and $M$ is the margin
+  \begin{align}
+    M = M(\beta_0, \beta_1, \ldots, \beta_p)
+    = \min_{\{ (x_{1i}, \ldots, x_{pi})^n_{i = 1}\}}{\color{orange}\frac{\beta_0 + \beta_1 x_{1i} + \cdots + \beta_px_{pi}}{(\beta_1^2 + \cdots + \beta_p^2)^{1/2}}}.
+  \end{align}
+\end{frame}
+
+\subsection{Support Vector Classifier}
+\begin{frame}{\secname}{\subsecname}
+  
+\end{frame}
+
+\subsection{Support Vector Machines}
 \begin{frame}{\secname}{\subsecname}
   
 \end{frame}
