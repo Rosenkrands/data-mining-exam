@@ -13,11 +13,12 @@ test_idx <- sample(1:nrow(data), round(.2*nrow(data)))
 train <- data[-test_idx, ]
 test <- data[test_idx, ]
 
+softplus <- function(x) log(1 + exp(x))
 nn <- neuralnet::neuralnet(
   cnt ~ atemp + hum + windspeed,
   data = train,
-  hidden = c(5, 4), 
-  act.fct = "logistic"
+  hidden = c(4, 3),
+  act.fct = softplus
 )
 
 lin <- lm(

@@ -1307,17 +1307,55 @@
 
 \section{Neural Networks}
 
-\subsection{Overview}
+\subsection{Perceptron}
+
 \begin{frame}{\secname}{\subsecname}
-  
+  \begin{columns}
+    \begin{column}{.5\textwidth}
+      The most basic form of a neural network is the \textbf{perceptron}.
+      \newline
+
+      There are an \textbf{input node for each explanatory variable}, the bias term (intercept) and then there are a \textbf{single output node}.
+      \newline
+
+      A weight is assigned to each of the input nodes and then the \textbf{linear combination} of weights times input is fed to the \textbf{activation function} in the output layer.
+      For regression we can just use the linear combination.
+      \newline
+    \end{column}
+    \begin{column}{.5\textwidth}
+      \begin{figure}
+        \includegraphics[width=.7\textwidth]{scripts/output/perceptron.pdf}
+        \caption{Perceptron made from the bike sharing dataset.}
+      \end{figure}
+    \end{column}
+  \end{columns}
 \end{frame}
 
-\subsection{Perceptron}
+\begin{frame}{\secname}{\subsecname}
+  The weights are determined, or learned using a loss function and an iterative approach
+  \begin{align}
+    w_i^{\text{new}} = w_i^{\text{old}} - \eta \frac{\partial L}{\partial w_i}
+  \end{align}
+\end{frame}
+
 \begin{frame}{\secname}{\subsecname}
     \textbf{Backpropagation}: For a given loss function $L$ we look for $\frac{\partial L}{\partial w_i}$.
     We start with initial values for the weights, which we shall denote $w_{old}$.
     Then we update the weights by $w_{new} = w_{old} - \eta \frac{\partial L}{\partial w}$.
     One iteration is called an \textbf{epoch}.
+\end{frame}
+
+\begin{frame}{\secname}{\subsecname}
+  \begin{figure}
+    \includegraphics[width=.7\textwidth]{scripts/output/neural_network.pdf}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{\secname}{\subsecname}
+  \begin{figure}
+    \includegraphics[width=.7\textwidth]{scripts/output/neural_network_compare.pdf}
+    \caption{Comparing linear regression (test RMSE=.133) and a neural network (test RMSE=.166) on the bike sharing dataset.}
+  \end{figure}
 \end{frame}
 
 {\aauwavesbg
