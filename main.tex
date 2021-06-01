@@ -1129,6 +1129,13 @@
 \end{frame}
 
 \begin{frame}{\secname}{\subsecname}
+  \begin{figure}
+    \includegraphics[width=.7\textwidth]{scripts/output/osh_data.pdf}
+    \caption{Data that can be seperated by a hyperplane, but it is not clear which one to use.}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{\secname}{\subsecname}
   Before we can find the \textbf{best} hyperplane, we need to decide what we mean by that.
   A common criteria is the hyperplane that is \textbf{farthest away from the observations}.
 
@@ -1147,14 +1154,148 @@
   \end{align}
 \end{frame}
 
+\begin{frame}{\secname}{\subsecname}
+  Finding then the \textbf{maximal hyperplane} can formally be written as
+  \begin{align}
+    &\max_{\beta_0, \beta_1, \ldots, \beta_p} M \\
+    &\text{ s.t.} \nonumber \\
+    & \underbrace{\sum_{j=1}^p \beta_j^2 = 1}_{{\color{orange}\text{identification}}}, \quad \underbrace{y_i(\beta_0 + \beta_1x_{i1} + \cdots + \beta_px_{ip}) \geq M \quad \forall i}_{{\color{violet}\text{ensure observations are on the correct side}}}
+  \end{align}
+  Note that the hyperplane \textbf{only} depends on the observations that are close to it, namely the observations whose distance to the hyperplane is equal to the margin.
+  These observations are called \textbf{support vectors}.
+\end{frame}
+
+\begin{frame}{\secname}{\subsecname}
+  \begin{figure}
+    \includegraphics[width=.6\textwidth]{scripts/output/osh_hyperplane.pdf}
+    \caption{Maximal hyperplane with support vectors marked with x and obervations with o.}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{\secname}{\subsecname}
+  A big assumption in this framework is that a seperating hyperplane exists, but in many cases it is not possible to perfectly seperate groups and therefore the method cannot be used in these scenarios.
+
+  This leads us to the next topic \textbf{support vector classifiers}.
+\end{frame}
+
 \subsection{Support Vector Classifier}
 \begin{frame}{\secname}{\subsecname}
-  
+  Insted of using a \textbf{hard margin}, as with optimal seperating hyperplanes, support vector classifiers uses a \textbf{soft margin}.
+  This means that we allow for \textbf{some misclassifications}.
+
+  Formally what we want to do is
+  \begin{align}
+    &\max_{\beta_0, \beta_1, \ldots, \beta_p, \varepsilon_1, \ldots, \varepsilon_n} M \\
+    &\text{ s.t.} \nonumber \\
+    & \sum_{j=1}^p \beta_j^2 = 1, \quad y_i(\beta_0 + \beta_1x_{i1} + \cdots + \beta_px_{ip}) \geq M(1-\varepsilon_i) \quad \forall i, \\ 
+    &\varepsilon_i \geq 0 \quad \forall i, \quad \sum_{j=1}^n \varepsilon_j \leq C,
+  \end{align}
+  where $C$ is a tuning parameter.
+\end{frame}
+
+\begin{frame}{\secname}{\subsecname}
+  \begin{columns}
+    \begin{column}{.5\textwidth}
+    If $\varepsilon_i = 0$, we get the condition from the maximal margin classifier at most on the margin and in the correct group.
+    \newline
+    
+    If $1 > \varepsilon_i > 0$ the observation is inside of the margin as the distance to the hyperplane is strictly less than $M$. 
+    \newline
+
+    If $\varepsilon_i > 1$ the observation is in the wrong group. The restriction changes sign.
+    \newline
+
+    The support vectors are observations with $\varepsilon_i > 0$.
+    \end{column}
+    \begin{column}{.5\textwidth}
+      \begin{figure}
+        \centering
+        \begin{tikzpicture}
+          \draw (0,-2) -- (0,2);
+          \draw[dashed, color=orange] (-.5,-2) -- (-.5,2);
+          \draw[dashed, color=violet] (.5,-2) -- (.5,2);
+
+          \fill[fill=orange] (-.25,0) circle (2pt);
+          \fill[fill=orange] (.4,1) circle (2pt);
+          \fill[fill=orange] (-.5,-1) circle (2pt);
+          \draw[color=orange] (-.9,.5) circle (2pt);
+          
+          \fill[fill=violet] (.25,.3) circle (2pt);
+          \fill[fill=violet] (-.6,.9) circle (2pt);
+          \fill[fill=violet] (.5,-1.3) circle (2pt);
+          \draw[color=violet] (.9,.2) circle (2pt); 
+        \end{tikzpicture}
+        \caption{Illustration of the different possible scenarios of $\varepsilon_i$.}
+      \end{figure}
+    \end{column} 
+  \end{columns}
+\end{frame}
+
+\begin{frame}{\secname}{\subsecname}
+  \begin{figure}
+    \includegraphics[width=.6\textwidth]{scripts/output/osh_data_overlap.pdf}
+    \caption{Overlapping that cannot be perfectly seperated by a hyperplane.}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{\secname}{\subsecname}
+  \begin{figure}
+    \includegraphics[width=.6\textwidth]{scripts/output/support-vector-classifier.pdf}
+    \caption{The result from a support vector classifier, many more support vectors (wider margin).}
+  \end{figure}
 \end{frame}
 
 \subsection{Support Vector Machines}
 \begin{frame}{\secname}{\subsecname}
-  
+  \textbf{Support vector machines} extends the support vector classifier by allowing \textbf{non linear} specifications.
+
+  In other words we can add transformations of the data to extend the space in which we are searching for the hyperplane. 
+  An example could be adding \textbf{polynomial terms}. 
+
+  The model is still \textbf{linear in the transformed variables}, but we are looking for hyperplanes in a higher dimension.
+
+  Instead of figuring out what transformation of variables should be used case by case, SVM's use the trick that relates to the optimization problem that is solved.
+
+  Without getting to much into it i can say that SVC's use cross-products as a similarity measure between observations (linear kernel).
+  SVM's extend to other \textbf{kernels}.
+\end{frame}
+
+\begin{frame}{\secname}{\subsecname}
+  A kernel is a function that quantifies the similarity between observations.
+  There are many possible kernels to use such as
+  \begin{itemize}
+    \item \textbf{Polynomal kernel} - $K(x_i, x_j) = \left(1 + \sum_{k=1}^p x_{ik}x_{jk}\right)^d$
+    \item \textbf{Radial kernel} - $K(x_i, x_j) = \exp \left(- \gamma \sum_{k=1}^p (x_{ik} - x_{jk})^2\right)$
+    %\item \textbf{ANOVA radial basis kernel} - $K(x_i, x_j) = \sum_{k=1}^n \exp \left(- \sigma (x_{ik} - x_{jk})^2 \right)^d$
+    \item \textbf{Sigmoid kernel} - $K(x_i, x_j) = \textit{tanh}\left(\kappa \sum_{k=1}^n (x_{ik} x_{jk}) + c\right)$
+  \end{itemize}
+  The different kernel all have their own parameter(s) that need to be tuned in order to get the best performance.
+\end{frame}
+
+\begin{frame}{\secname}{\subsecname}
+  \begin{figure}
+    \begin{subfigure}[t]{.45\textwidth}
+      \centering
+      \includegraphics[width=.65\textwidth]{scripts/output/support-vector-classifier.pdf}
+    \end{subfigure}\hfill
+    \begin{subfigure}[t]{.45\textwidth}
+      \centering
+      \includegraphics[width=.65\textwidth]{scripts/output/polynomial_kernel.pdf}
+    \end{subfigure}\hfill
+    \begin{subfigure}[t]{.45\textwidth}
+      \centering
+      \includegraphics[width=.65\textwidth]{scripts/output/radial_kernel.pdf}
+    \end{subfigure}\hfill
+    \begin{subfigure}[t]{.45\textwidth}
+      \centering
+      \includegraphics[width=.65\textwidth]{scripts/output/sigmoid_kernel.pdf}
+    \end{subfigure}
+    \caption{From the top right; linear, polynomial, radial, sigmoid.}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{\secname}{\subsecname}
+  Even though segmentation look non-linear, we note that it is linear in a higher dimensional space we are just not able to see on the plot.
 \end{frame}
 
 \section{Neural Networks}
