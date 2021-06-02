@@ -14,7 +14,7 @@ data <- tibble(obs=obs, x1=x1, x2=x2)
 
 withinss <- function(centers){
   k.out = kmeans(data%>%select(-obs), centers, nstart=10)
-  return(k.out$tot.withinss/k.out$totss)
+  return(1-k.out$tot.withinss/k.out$totss)
 }
 
 centers.list = list(); for (i in 1:10) {centers.list[[i]] <- i}

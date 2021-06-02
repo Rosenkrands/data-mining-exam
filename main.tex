@@ -134,7 +134,7 @@
     \min_{C_1, \ldots, C_K} \left\{\sum_{k=1}^K W(C_k)\right\}, \label{k-means-general-problem}
   \end{align}
   where $W(C_k)$ denotes the \textbf{within cluster variation}, in other words the dissimilarity of the group.
-  \vspace{10pt}
+  % \vspace{10pt}
   
   {\small The most common dissimilarity measure is the is the squared Euclidean distance
   \begin{align}
@@ -231,7 +231,7 @@
       {\color{teal}SS_{total} = \sum_{i=1}^n (x_i - \Bar{x})^2, \quad \Bar{x} = \frac{1}{n} \sum_{i = 1}^n x_i,} \quad {\color{violet}SS_{W_k} = \sum_{i \in C_k} (x_i - \Bar{x}_k)^2, \quad \Bar{x}_k = \frac{1}{n_k}\sum_{i \in C_k} x_i.}
   \end{align*}
   Then the \textbf{total within sum of squares} becomes $SS_{W} = \sum_{k=1}^K SS_{W_k}$.
-  Using this we can calculate the \textbf{percentage of variance explained} as $PVE = SS_W/SS_{total}$.
+  Using this we can calculate the \textbf{percentage of variance explained} as $PVE = 1 - SS_W/SS_{total}$.
 \end{frame}
 
 \begin{frame}{\secname}{\subsecname}
@@ -389,9 +389,9 @@
   \end{figure}
 \end{frame}
 
-\begin{frame}{\secname}{\subsecname}
+% \begin{frame}{\secname}{\subsecname}
   
-\end{frame}
+% \end{frame}
 
 \section{Shrinkage}
 
@@ -643,7 +643,7 @@
           \draw[dashed, color=teal] (2,0) to [bend left=20] (0,-2) to [bend left=20] (-2,0) to [bend left=20] (0,2) to [bend left=20] (2,0);
           \draw[color=violet] (0,0) circle (2);
         \end{tikzpicture}
-        \caption{The feasible region for {\color{orange} ridge}, {\color{violet} lasso} and {\color{teal} elastic net} ($\alpha = .5$).}
+        \caption{The feasible region for {\color{violet} ridge}, {\color{orange} lasso} and {\color{teal} elastic net} ($\alpha = .5$).}
       \end{figure}
     \end{column}
   \end{columns}
@@ -1143,7 +1143,7 @@
   This smallest distance from an observation to the hyperplane is called the \textbf{margin}.
   In other words we look for the hyperplane with \textbf{maximal margin}.
 
-  Finding the maximal margin is equivalent to solving
+  Finding the distance to the hyperplane is equivalent to solving, where $x_0$ is an observation 
   \begin{align}
     \min_x \| x - x_0 \| \text{ subject to } \beta_0 + \beta_1x_{i1} + \cdots + \beta_p x_{ip} = 0.
   \end{align}
