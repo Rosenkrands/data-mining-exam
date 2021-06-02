@@ -1332,17 +1332,121 @@
 \end{frame}
 
 \begin{frame}{\secname}{\subsecname}
-  The weights are determined, or learned using a loss function and an iterative approach
+  The weights are determined, or learned, using a loss function and an iterative approach
   \begin{align}
-    w_i^{\text{new}} = w_i^{\text{old}} - \eta \frac{\partial L}{\partial w_i}
+    w_i^{\text{new}} = w_i^{\text{old}} - \eta \frac{\partial L}{\partial w_i},
+  \end{align}
+  where the loss function is given by
+  \begin{align}
+    L &= \frac{1}{2}(y - \hat{y})^2 = \frac{1}{2}\left(y - g\left(\sum_i w_i x_i\right)\right)^2, \\
+    \frac{\partial L}{\partial w_i} &= \left(y - g\left(\sum_i w_i x_i\right)\right)\left(-g'\left(\sum_i w_i x_i\right)\right)(x_i),
+  \end{align}
+  where we used the chain rule twice.
+  The \textbf{learning rate} is denoted by $\eta$ and a cycle through the weights is called an \textbf{epoch}.
+\end{frame}
+
+\subsection{Multilayer Neural Network}
+
+\begin{frame}{\secname}{\subsecname}
+  \begin{columns}
+    \begin{column}{.6\textwidth}
+      The perceptron is a simple linear model, to create a more complex model we introduce \textbf{hidden layers}.
+      Each node in the hidden layer is activated by the previous layer
+      \begin{align}
+        a_i^{(1)} = g\left(w_{0i}^{(1)} + \sum_{j=1}^{k^{(0)}}w_{ji}^{(1)}x_j\right), \quad i = 1,\ldots,k^{(1)}.
+      \end{align}
+      $k^{(i)}$ is the number of nodes in layer $i$.
+      The output layer is
+      {\small
+      \begin{align}
+        \hat{y} = a_0^{(2)} = g\left(w_{0}^{(2)} + \sum_{j=1}^{k^{(1)}}w_{j1}^{(2)}a_j^{(1)}\right).
+      \end{align}
+      }
+    \end{column}
+    \begin{column}{.4\textwidth}
+      \begin{figure}
+        \includegraphics[width=.9\textwidth]{scripts/output/neural_network_multilayer.pdf}
+        \caption{Multilayer neural network made from the bike sharing dataset.}
+      \end{figure}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{\secname}{\subsecname}
+  In more general terms, let us say we have $m$ hidden layers
+  \begin{align}
+    a_i^{(s)} &= g \left(w_{0i}^{(s)} + \sum_{j=1}^{k^{(s-1)}} w_{ji}^{(s)}a_j^{(s-1)} \right) \textit{ for } i = 1, \ldots, k^{(s)}, \\
+    \hat{y} &= a_0^{m+1} = g \left(w_0^{(m+1)} + \sum_{j=1}^{k^{(m)}} w_{jm}^{(m+1)}a_j^{(m)}\right).
+  \end{align}
+\end{frame}
+
+\subsection{Estimation of a Multilayer Neural Network}
+\begin{frame}{\secname}{\subsecname}
+  The next thing to consider will be how to \textbf{estimate} a multilayer neural network.
+
+  Let us say that we have a neural network with $m$ hidden layers and input $(x_i,y_i)_{i=1}^n$, for simplicity we will assume that all bias terms (intercepts) are equal to 1.
+  We want to evaluate the loss function
+  \begin{align}
+    L = \frac{1}{2n} \sum_{i=1}^n (\hat{y}_i - y_i)^2,
+  \end{align}
+  then obtain derivatives $\frac{\partial L }{\partial w_{ij}^{(k)}}$ and update the weights by
+  \begin{align}
+    \Delta w_{ij}^k = - \eta \frac{\partial L}{\partial w_{ij}^{(k)}}.
+  \end{align}
+\end{frame}
+
+\subsection{Backpropagation}
+\begin{frame}{\secname}{\subsecname}
+  In practice this is done by a method called \textbf{backpropagation}.
+
+  It can be shown that the problem of finding $\frac{\partial L}{\partial w_{ij}^{(k)}}$ can be done for each observation $\frac{\partial L_s}{\partial w_{ij}^{(k)}}$.
+
+  Remember the expression for each node $a_i^{(s)} = g \bigg(\underbrace{\sum_{j=1}^{k^{(s-1)}} w_{ji}^{(s)}a_j^{(s-1)}}_{z_j^{(s)}} \bigg)$, then we have
+  \begin{align}
+    \frac{\partial L_s}{\partial w_{ij}^{(k)}} = \underbrace{\frac{\partial L_s}{ \partial z_j^{(k)}}}_{\delta_j^{(k)}} \frac{\partial z_j^{(k)}}{\partial w_{ij}^{(k)}} \quad {\footnotesize \textit{by the chain rule}}
   \end{align}
 \end{frame}
 
 \begin{frame}{\secname}{\subsecname}
-    \textbf{Backpropagation}: For a given loss function $L$ we look for $\frac{\partial L}{\partial w_i}$.
-    We start with initial values for the weights, which we shall denote $w_{old}$.
-    Then we update the weights by $w_{new} = w_{old} - \eta \frac{\partial L}{\partial w}$.
-    One iteration is called an \textbf{epoch}.
+  The first term, $\delta_j^{(k)}$, depends on the loss and therefore we call it the error term.
+
+  For the second term we see that
+  \begin{align}
+    \frac{\partial z_j^{(k)}}{\partial w_{ij}^{(k)}} = \frac{\partial}{\partial w_{ij}^{(k)}} \sum_{t=0}^{k^{(s)}} w_{tj}^{(k)} a_t^{(k-1)} = a_i^{(k-1)}.
+  \end{align}
+  Thus we ultimately get
+  \begin{align}
+    \frac{\partial L_s}{\partial w_{ij}^{(k)}} = \frac{\partial L_s}{\partial z_j^{(k)}}\frac{\partial z_j^{(k)}}{\partial w_{ij}^{(k)}} = {\color{orange}\delta_j^{(k)}}{\color{violet}a_i^{(k-1)}},
+  \end{align}
+  We first calculate ${\color{violet}a_i^{(k-1)}}$ in a forward phase and then ${\color{orange}\delta_j^{(k)}}$ is a backwards phase.
+\end{frame}
+
+\begin{frame}{\secname}{\subsecname}
+  {\color{violet}Forward phase}: 
+  \begin{itemize}
+      \item The inputs for a training instance are fed into the neural network. 
+      \item This results in a forward cascade of computations across the layers, using the current set of weights. 
+      \item The final predicted output can be compared to the true value. 
+  \end{itemize}
+
+  {\color{orange}Backward phase}: 
+  \begin{itemize}
+      \item Use the error estimate to learn the weights in the backward direction, starting with the output node. 
+      \item The error estimate of a node in the hidden layer is computed as a function of the error estimates and weights of the nodes in the layer ahead of it. 
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{\secname}{\subsecname}
+  The first step in the {\color{orange}backward phase} is to compute $\delta_1^{(m+1)}$ (\textit{the output layer})
+  \begin{align}
+    \delta_1^{(m+1)} = \frac{\partial L}{\partial z_1^{(m+1)}} = \frac{\partial}{\partial z_1^{(m+1)}} \left(\frac{1}{2}(g(z_1^{(m+1)}) - y)^2 \right) = \left(g(z_1^{(m+1)}) - y \right)g'(z_1^{(m+1)}),
+  \end{align}
+  The same as for the perceptron.
+  For the hidden layers the error term \textbf{depends on subsequent layers}, the chain gives that
+  \begin{align}
+    \delta_j^{(k)} = \frac{\partial L}{\partial z_j^{(k)}} = \sum_i \underbrace{\frac{\partial L}{\partial z_i^{(k+1)}}}_{\delta_j^{(k+1)}} \frac{\partial z_i^{(k+1)}}{\partial z_j^{(k)}} = \sum_i \delta_j^{(k+1)} \frac{\partial z_i^{(k+1)}}{\partial z_j^{(k)}}.
+  \end{align}
+  We then perform first the forward phase and the backward for each epoch and update the weights (like for the perceptron).
 \end{frame}
 
 \begin{frame}{\secname}{\subsecname}
@@ -1351,11 +1455,25 @@
   \end{figure}
 \end{frame}
 
+\subsection{Comparing Linear Regression and Neural Networks}
+
+\begin{frame}{\secname}{\subsecname}
+  \begin{figure}
+    \includegraphics[width=.7\textwidth]{scripts/output/neural_network_compare_train.pdf}
+    \caption{Comparing linear regression (train RMSE=.141) and a neural network (test RMSE=.163) on the bike sharing dataset.}
+  \end{figure}
+\end{frame}
+
 \begin{frame}{\secname}{\subsecname}
   \begin{figure}
     \includegraphics[width=.7\textwidth]{scripts/output/neural_network_compare.pdf}
     \caption{Comparing linear regression (test RMSE=.133) and a neural network (test RMSE=.166) on the bike sharing dataset.}
   \end{figure}
+\end{frame}
+
+
+\begin{frame}{\secname}{\subsecname}
+  
 \end{frame}
 
 {\aauwavesbg
