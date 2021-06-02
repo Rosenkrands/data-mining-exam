@@ -1455,7 +1455,7 @@
   \end{figure}
 \end{frame}
 
-\subsection{Comparing Linear Regression and Neural Networks}
+\subsection{Comparing Linear Regression and Neural Networks - Residuals}
 
 \begin{frame}{\secname}{\subsecname}
   \begin{figure}
@@ -1464,6 +1464,8 @@
   \end{figure}
 \end{frame}
 
+\subsection{Comparing Linear Regression and Neural Networks - Generalization}
+
 \begin{frame}{\secname}{\subsecname}
   \begin{figure}
     \includegraphics[width=.7\textwidth]{scripts/output/neural_network_compare.pdf}
@@ -1471,9 +1473,13 @@
   \end{figure}
 \end{frame}
 
-
+\subsection{Considerations}
 \begin{frame}{\secname}{\subsecname}
-  
+  One must choose learning rate and epochs with caution as the dictate whether we are over- or underfitting the data.
+
+  Likewise with the topology of the network, more nodes and layers means that we are better able to fit the data, but we risk overfitting when maybe the network too large.
+
+  Size of the network will also have a big impact on the time it takes to train the model, generally we say that neural networks are relatively slow to train compared to other methods.
 \end{frame}
 
 {\aauwavesbg
